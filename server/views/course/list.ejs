@@ -1,52 +1,69 @@
 <%- include ../partials/header.ejs %>
 
-<%- include ../partials/main_nav.ejs %>
+  <%- include ../partials/main_nav.ejs %>
 
-<!-- Main Content -->
-<main class="container">
-  <div class="row">
-    <div class="offset-md-1 col-md-11">
-      <h1><%= title %></h1>
-      <br>
-      <table class="table table-bordered table-striped table-hover">
-        <!-- Header Row-->
-        <tr class="d-flex">
-          <th class="text-center col-2">Title</th>
-          <th class="text-center col-2">Course Code</th>
-          <th class="text-center col-1">Lecture per hours week</th>
-          <th class="text-center col-1">Lab per hours week</th>
-          <th class="text-center col-2">Availability</th>
-          <th class="col-4">Description</th>
-          <th class="text-center col-1"></th>
-          <th class="text-center col-1"></th>
-        </tr>
-        <!-- Repeatable Template Row -->
+    <!-- Main Content -->
+    <main class="container">
+      <div class="row">
+        <div class="offset-md-1 col-md-11">
+          <h1>
+            <%= title %>
+          </h1>
+          <a class="btn btn-primary btn-sm" href="/courses/add">
+            <i class="fas fa-plus"></i>Add Course</a>
+          <br>
 
-        <% for(let count = 0; count < courseList.length; count++) { %>
-        <tr class="d-flex">
-          <td class="text-center col-2"><%= courseList[count].name %></td>
-          <td class="text-center col-2"><%= courseList[count].code %></td>
-          <td class="text-center col-1"><%= courseList[count].lecture_per_week %></td>
+          <table class="table table-bordered table-striped table-hover">
+            <!-- Header Row-->
+            <tr class="d-flex">
+              <th class="text-center col-2">Title</th>
+              <th class="text-center col-2">Course Code</th>
+              <th class="text-center col-1">Lecture per hours week</th>
+              <th class="text-center col-1">Lab per hours week</th>
+              <th class="text-center col-2">Availability</th>
+              <th class="col-4">Description</th>
+              <th class="text-center col-1"></th>
+              <th class="text-center col-1"></th>
+            </tr>
+            <!-- Repeatable Template Row -->
 
-          <td class="text-center col-1"><%= courseList[count].lab_per_week %></td>
+            <% for(let count=0; count < courseList.length; count++) { %>
+              <tr class="d-flex">
+                <td class="text-center col-2">
+                  <%= courseList[count].name %>
+                </td>
+                <td class="text-center col-2">
+                  <%= courseList[count].code %>
+                </td>
+                <td class="text-center col-1">
+                  <%= courseList[count].lecture_per_week %>
+                </td>
 
-          <td class="text-center col-2"><%= courseList[count].availability %></td>
-          <td class="col-4"><%= courseList[count].description %></td>
-          <td class="text-center col-1">
-            <a href="/courses/edit/<%= courseList[count]._id %>" class="btn btn-primary btn-sm">
-              <i class="fas fa-pencil-alt"></i> Edit</a>
-          </td>
-          <td class="text-center col-1">
-            <a href="/courses/delete/<%= courseList[count]._id %>" class="btn btn-danger btn-sm">
-              <i class="fas fa-trash-alt"></i> Delete</a>
-          </td>
-        </tr>
-        <% } %>
-      </table>
-    </div>
-  </div>
-</main>
+                <td class="text-center col-1">
+                  <%= courseList[count].lab_per_week %>
+                </td>
 
-<%- include ../partials/bottom_nav.ejs %>
+                <td class="text-center col-2">
+                  <%= courseList[count].availability %>
+                </td>
+                <td class="col-4">
+                  <%= courseList[count].description %>
+                </td>
+                <td class="text-center col-1">
+                  <a href="/courses/edit/<%= courseList[count]._id %>" class="btn btn-primary btn-sm">
+                    <i class="fas fa-pencil-alt"></i> Edit</a>
+                </td>
+                <td class="text-center col-1">
+                  <a href="/courses/delete/<%= courseList[count]._id %>" class="btn btn-danger btn-sm">
+                    <i class="fas fa-trash-alt"></i> Delete</a>
+                </td>
+              </tr>
+              <% } %>
+          </table>
+        </div>
+      </div>
+    </main>
 
-<%- include ../partials/footer.ejs %>
+    <%- include ../partials/bottom_nav.ejs %>
+
+      <%- include ../partials/footer.ejs %>
