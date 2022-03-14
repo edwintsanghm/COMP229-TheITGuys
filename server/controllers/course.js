@@ -19,6 +19,20 @@ module.exports.displayCourseList = (req, res, next) => {
     });
 }
 
+module.exports.getCourseList = (req, res, next) => {
+    Course.find((err, courseList) => {
+        if(err)
+        {
+            return console.error(err);
+        }
+        else
+        {
+            //console.log(BookList);
+            res.json(courseList);  
+        }
+    });
+}
+
 module.exports.displayAddPage = (req, res, next) => {
     res.render('course/add', {title: 'Add Course', 
     displayName: req.user ? req.user.displayName : ''})          
