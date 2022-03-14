@@ -9,6 +9,6 @@ export class SurveyService {
   constructor(private http: HttpClient) { }
 
   getSurveys() {
-    return this.http.get('/courses');
+    return this.http.get('/api/courses');
   }
 }

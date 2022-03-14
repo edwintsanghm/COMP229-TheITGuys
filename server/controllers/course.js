@@ -11,10 +11,10 @@ module.exports.displayCourseList = (req, res, next) => {
         {
             //console.log(BookList);
 
-            res.render('course/list', 
-            {title: 'Course', 
-            courseList: courseList, 
-            displayName: req.user ? req.user.displayName : ''});      
+            // res.render('course/list', 
+            // {title: 'Course', 
+            // courseList: courseList, 
+            // displayName: req.user ? req.user.displayName : ''});      
         }
     });
 }
@@ -34,8 +34,8 @@ module.exports.getCourseList = (req, res, next) => {
 }
 
 module.exports.displayAddPage = (req, res, next) => {
-    res.render('course/add', {title: 'Add Course', 
-    displayName: req.user ? req.user.displayName : ''})          
+    // res.render('course/add', {title: 'Add Course', 
+    // displayName: req.user ? req.user.displayName : ''})          
 }
 
 module.exports.processAddPage = (req, res, next) => {
@@ -58,7 +58,7 @@ module.exports.processAddPage = (req, res, next) => {
         else
         {
             // refresh the book list
-            res.redirect('/courses');
+            // res.redirect('/courses');
         }
     });
 
@@ -76,8 +76,8 @@ module.exports.displayEditPage = (req, res, next) => {
         else
         {
             //show the edit view
-            res.render('course/edit', {title: 'Edit Course', course: courseToEdit, 
-            displayName: req.user ? req.user.displayName : ''})
+            // res.render('course/edit', {title: 'Edit Course', course: courseToEdit, 
+            // displayName: req.user ? req.user.displayName : ''})
         }
     });
 }
@@ -105,7 +105,7 @@ module.exports.processEditPage = (req, res, next) => {
         else
         {
             // refresh the book list
-            res.redirect('/courses');
+            // res.redirect('/courses');
         }
     });
 }
@@ -122,7 +122,7 @@ module.exports.performDelete = (req, res, next) => {
         else
         {
              // refresh the book list
-             res.redirect('/courses');
+            //  res.redirect('/courses');
         }
     });
 }
