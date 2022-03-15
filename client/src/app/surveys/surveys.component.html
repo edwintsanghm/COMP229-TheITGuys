@@ -1,1 +1,36 @@
 <p>surveys works!</p>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let course"> {{course.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="code">
+        <th mat-header-cell *matHeaderCellDef> Code </th>
+        <td mat-cell *matCellDef="let course"> {{course.code}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="lecture_per_week">
+        <th mat-header-cell *matHeaderCellDef> Lecture Per Week </th>
+        <td mat-cell *matCellDef="let course"> {{course.lecture_per_week}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="lab_per_week">
+        <th mat-header-cell *matHeaderCellDef> Lab Per Week </th>
+        <td mat-cell *matCellDef="let course"> {{course.lab_per_week}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> Description </th>
+        <td mat-cell *matCellDef="let course"> {{course.description}} </td>
+    </ng-container>
+    <ng-container matColumnDef="availability">
+        <th mat-header-cell *matHeaderCellDef> Availability </th>
+        <td mat-cell *matCellDef="let course"> {{course.availability}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

@@ -39,8 +39,8 @@ let courseRouter = require('../routes/course');
 let app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, '../views'));
-app.set('view engine', 'ejs'); // express  -e
+// app.set('views', path.join(__dirname, '../views'));
+// app.set('view engine', 'ejs'); // express  -e
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -96,7 +96,13 @@ passport.use(strategy);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/book-list', booksRouter);
-app.use('/courses',courseRouter);
+app.use('/api/courses',courseRouter);
+
+
+app.all('/*', function(req, res, next) {
+    // Just send the index.html for other files to support HTML5Mode
+    res.sendFile('index.html', { root: path.join(__dirname, '../../public' )});
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -111,7 +117,8 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error', { title: 'Error'});
+  res.json(err)
+  // res.render('error', { title: 'Error'});
 });
 
 module.exports = app;

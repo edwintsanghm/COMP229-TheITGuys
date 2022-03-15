@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "nodemon ./server.js"
+    "start": "nodemon ./server.js",
+    "dev": "cd client && npm run build && cd .. && nodemon ./server.js"
   },
   "engines": {
     "node": "^12.18.3",

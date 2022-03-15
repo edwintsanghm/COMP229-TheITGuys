@@ -17,17 +17,17 @@ module.exports.displayBookList = (req, res, next) => {
         {
             //console.log(BookList);
 
-            res.render('book/list', 
-            {title: 'Books', 
-            BookList: bookList, 
-            displayName: req.user ? req.user.displayName : ''});      
+            // res.render('book/list', 
+            // {title: 'Books', 
+            // BookList: bookList, 
+            // displayName: req.user ? req.user.displayName : ''});      
         }
     });
 }
 
 module.exports.displayAddPage = (req, res, next) => {
-    res.render('book/add', {title: 'Add Book', 
-    displayName: req.user ? req.user.displayName : ''})          
+    // res.render('book/add', {title: 'Add Book', 
+    // displayName: req.user ? req.user.displayName : ''})          
 }
 
 module.exports.processAddPage = (req, res, next) => {
@@ -48,7 +48,7 @@ module.exports.processAddPage = (req, res, next) => {
         else
         {
             // refresh the book list
-            res.redirect('/book-list');
+            // res.redirect('/book-list');
         }
     });
 
@@ -66,8 +66,8 @@ module.exports.displayEditPage = (req, res, next) => {
         else
         {
             //show the edit view
-            res.render('book/edit', {title: 'Edit Book', book: bookToEdit, 
-            displayName: req.user ? req.user.displayName : ''})
+            // res.render('book/edit', {title: 'Edit Book', book: bookToEdit, 
+            // displayName: req.user ? req.user.displayName : ''})
         }
     });
 }
@@ -93,7 +93,7 @@ module.exports.processEditPage = (req, res, next) => {
         else
         {
             // refresh the book list
-            res.redirect('/book-list');
+            // res.redirect('/book-list');
         }
     });
 }
@@ -110,7 +110,7 @@ module.exports.performDelete = (req, res, next) => {
         else
         {
              // refresh the book list
-             res.redirect('/book-list');
+            //  res.redirect('/book-list');
         }
     });
 }

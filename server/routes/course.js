@@ -15,7 +15,7 @@ let courseController = require('../controllers/course');
 // }
 
 /* GET Route for the Course List page - READ Operation */
-router.get('/', courseController.displayCourseList);
+router.get('/', courseController.getCourseList);
 
 // /* GET Route for displaying the Add page - CREATE Operation */
 router.get('/add', courseController.displayAddPage);

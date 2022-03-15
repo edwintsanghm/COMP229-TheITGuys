@@ -12,39 +12,39 @@ let userModel = require('../models/user');
 let User = userModel.User; // alias
 
 module.exports.displayHomePage = (req, res, next) => {
-    res.render('index', {title: 'CentHub', displayName: req.user ? req.user.displayName : ''});
+    // res.render('index', {title: 'CentHub', displayName: req.user ? req.user.displayName : ''});
 }
 
 module.exports.displayAboutPage = (req, res, next) => {
-    res.render('index', { title: 'About', displayName: req.user ? req.user.displayName : ''});
+    // res.render('index', { title: 'About', displayName: req.user ? req.user.displayName : ''});
 }
 
 module.exports.displayProductsPage = (req, res, next) => {
-    res.render('index', { title: 'Products', displayName: req.user ? req.user.displayName : ''});
+    // res.render('index', { title: 'Products', displayName: req.user ? req.user.displayName : ''});
 }
 
 module.exports.displayServicesPage = (req, res, next) => {
-    res.render('index', { title: 'Services', displayName: req.user ? req.user.displayName : ''});
+    // res.render('index', { title: 'Services', displayName: req.user ? req.user.displayName : ''});
 }
 
 module.exports.displayContactPage = (req, res, next) => {
-    res.render('index', { title: 'Contact', displayName: req.user ? req.user.displayName : ''});
+    // res.render('index', { title: 'Contact', displayName: req.user ? req.user.displayName : ''});
 }
 
 module.exports.displayLoginPage = (req, res, next) => {
     // check if the user is already logged in
     if(!req.user)
     {
-        res.render('auth/login', 
-        {
-           title: "Login",
-           messages: req.flash('loginMessage'),
-           displayName: req.user ? req.user.displayName : '' 
-        })
+        // res.render('auth/login', 
+        // {
+        //    title: "Login",
+        //    messages: req.flash('loginMessage'),
+        //    displayName: req.user ? req.user.displayName : '' 
+        // })
     }
     else
     {
-        return res.redirect('/');
+        // return res.redirect('/');
     }
 }
 
@@ -90,7 +90,7 @@ module.exports.processLoginPage = (req, res, next) => {
             }, token: authToken});
             */
 
-            return res.redirect('/book-list');
+            // return res.redirect('/book-list');
         });
     })(req, res, next);
 }
@@ -99,16 +99,16 @@ module.exports.displayRegisterPage = (req, res, next) => {
     // check if the user is not already logged in
     if(!req.user)
     {
-        res.render('auth/register',
-        {
-            title: 'Register',
-            messages: req.flash('registerMessage'),
-            displayName: req.user ? req.user.displayName : ''
-        });
+        // res.render('auth/register',
+        // {
+        //     title: 'Register',
+        //     messages: req.flash('registerMessage'),
+        //     displayName: req.user ? req.user.displayName : ''
+        // });
     }
     else
     {
-        return res.redirect('/');
+        // return res.redirect('/');
     }
 }
 
@@ -151,7 +151,7 @@ module.exports.processRegisterPage = (req, res, next) => {
             */
 
             return passport.authenticate('local')(req, res, () => {
-                res.redirect('/book-list')
+                // res.redirect('/book-list')
             });
         }
     });
@@ -159,5 +159,5 @@ module.exports.processRegisterPage = (req, res, next) => {
 
 module.exports.performLogout = (req, res, next) => {
     req.logout();
-    res.redirect('/');
+    // res.redirect('/');
 }
