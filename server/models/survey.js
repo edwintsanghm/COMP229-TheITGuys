@@ -40,12 +40,6 @@ let userResponseSchema = mongoose.Schema(
             type:mongoose.Schema.ObjectId,
             ref:"Survey"
         }],
-        questions: [
-            {
-                type:mongoose.Schema.ObjectId,
-                ref:"Question"
-            }
-        ],
     },
     {
         collection: "response"

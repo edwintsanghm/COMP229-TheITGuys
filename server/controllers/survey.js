@@ -2,7 +2,6 @@ const e = require('connect-flash');
 let survey = require('../models/survey');
 let UserResponse = survey.UserResponse;
 let Survey = survey.Survey;
-
 module.exports.displaySurveyList = (req, res, next) => {
     Survey.find((err, surveys) => {
         if (err) {
@@ -56,7 +55,11 @@ module.exports.processAddPage = async (req, res, next) => {
 }
 
 module.exports.processEditPage = (req, res, next) => {
+
     let id = req.params.id
+    console.log(req.body.name);
+    console.log(req.body.description);
+    console.log(req.body.questions);
 
     let updatedSurvey = Survey({
         "_id": id,
@@ -109,16 +112,17 @@ module.exports.displaySpecificSurvey = (req, res, next) => {
     });
 }
 
-module.exports.displaySpecificSurvey = (req, res, next) => {
-    let id = req.params.id;
-    Survey.findById(id, (err, survey) => {
-        if (err) {
-            console.log(err);
-            res.end(err);
-        } else {
-            res.json({
-                survey: survey
-            });
-        }
-    });
+module.exports.displaySummary = async (req, res, next) => {
+    try {
+        let id = req.params.id;
+        let responses = await UserResponse.findById(id).populate('survey').exec();
+        res.json({
+            summary:responses,
+        })
+    }catch(e) {
+        res.json({
+            error:e
+        })
+    }
+
 }
