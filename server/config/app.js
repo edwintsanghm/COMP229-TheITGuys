@@ -35,6 +35,7 @@ let indexRouter = require('../routes/index');
 let usersRouter = require('../routes/users');
 let booksRouter = require('../routes/book');
 let courseRouter = require('../routes/course');
+let surveyRouter = require('../routes/survey');
 
 let app = express();
 
@@ -97,6 +98,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/book-list', booksRouter);
 app.use('/api/courses',courseRouter);
+app.use('/api/survey',surveyRouter);
 
 
 app.all('/*', function(req, res, next) {
