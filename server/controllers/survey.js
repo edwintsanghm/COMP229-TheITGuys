@@ -2,6 +2,7 @@ const e = require('connect-flash');
 let survey = require('../models/survey');
 let UserResponse = survey.UserResponse;
 let Survey = survey.Survey;
+let Question = survey.Question;
 module.exports.displaySurveyList = (req, res, next) => {
     Survey.find((err, surveys) => {
         if (err) {
@@ -18,37 +19,73 @@ module.exports.displaySurveyList = (req, res, next) => {
 
 module.exports.processAddPage = async (req, res, next) => {
     try {
-        let newSurvey = Survey({
+        let newSurvey = await Survey({
             "name": req.body.name,
             "description": req.body.description,
             // "owner": req.body.ownerId,
-            "questions": req.body.questions
+            "questions": req.body.questions,
         });
-    
+
         let createdSurvey = await Survey.create(newSurvey);
         let findedUserResponse = await UserResponse.findOne({ name: req.body.name });
         let createResponses = null;
+        console.log(findedUserResponse);
         //if user response exist
         if (findedUserResponse != null) {
+            let questions = req.body.questions;
+            for(let i = 0;i < findedUserResponse.summary.length;i++) {
+                if(questions[i].title == findedUserResponse.summary[i].qtitle) {
+                    let updatedValues = findedUserResponse.summary[i].stat[questions[i].selectedOption] + 1;
+                    findedUserResponse.summary[i].stat[questions[i].selectedOption] = updatedValues;
+                }
+            }
             findedUserResponse.survey = [...findedUserResponse.survey, createdSurvey._id];
+            findedUserResponse.markModified('summary');
             findedUserResponse.save();
         } else {
-        //if user response does not exist, create a new response for it    
+            // create summary object like..
+            // {
+            //     qtitle:question1    
+            //     stat:{
+            //         optionA:0,
+            //         optionB:1,
+            //     }
+            // }
+            let questions = createdSurvey.questions;
+            questionSummary = questions.map(question => {
+                let selected = question.selectedOption;
+                let options = question.options;
+                let title = question.title;
+                const obj = {};
+                options.forEach(o => {
+                    obj[o] = 0;
+                    if(o == selected) {
+                        obj[o] = 1;
+                    } else {
+                        obj[o] = 0;
+                    }
+                });
+                return {
+                    qtitle:title,
+                    stat:obj
+                }
+            });
+            //if user response does not exist, create a new response for it    
             let newUserResponse = UserResponse({
-                name:createdSurvey.name,
+                name: createdSurvey.name,
                 survey: [createdSurvey._id],
-                questions: [createdSurvey.questions.map((question) => question._id)]
+                summary: questionSummary
             });
             createResponses = await UserResponse.create(newUserResponse);
         }
-    
+
         res.json({
             survey: createdSurvey,
-            responses:createResponses,
+            responses: createResponses || findedUserResponse,
         });
-    } catch(e) {
+    } catch (e) {
         res.json({
-            error:e
+            error: e
         })
     }
 
@@ -115,13 +152,18 @@ module.exports.displaySpecificSurvey = (req, res, next) => {
 module.exports.displaySummary = async (req, res, next) => {
     try {
         let id = req.params.id;
-        let responses = await UserResponse.findById(id).populate('survey').exec();
+        let responses = await UserResponse
+            .findById(id)
+            .populate('survey')
+            .exec();
+
         res.json({
-            summary:responses,
+            responses
         })
-    }catch(e) {
+    } catch (e) {
+        console.error(e);
         res.json({
-            error:e
+            error: e
         })
     }
 
