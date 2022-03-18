@@ -25,28 +25,26 @@ let surveySchema = mongoose.Schema({
     //     type: mongoose.Schema.ObjectId,
     //     ref: "User"
     // },
-    questions: [
-        questionSchema
-    ]
+    questions: [questionSchema]
 },
     {
         collection: "survey"
     });
-
 let userResponseSchema = mongoose.Schema(
     {
-        name: {type:String,unique:true},
+        name: { type: String, unique: true },
         survey: [{
-            type:mongoose.Schema.ObjectId,
-            ref:"Survey"
+            type: mongoose.Schema.ObjectId,
+            ref: "Survey",
         }],
+        summary:Object
     },
     {
         collection: "response"
-});
+    });
 userResponseSchema.plugin(uniqueValidator, { message: 'is already taken.' });
 module.exports = {
-    Survey:mongoose.model('Survey', surveySchema),
+    Survey: mongoose.model('Survey', surveySchema),
     Question: mongoose.model('Question', questionSchema),
-    UserResponse: mongoose.model('UserReponses',userResponseSchema)
+    UserResponse: mongoose.model('UserReponses', userResponseSchema)
 }
