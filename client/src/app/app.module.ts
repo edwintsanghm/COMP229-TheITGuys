@@ -12,13 +12,15 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
 import { HttpClientModule } from '@angular/common/http';
+import { AddsurveyComponent } from './addsurvey/addsurvey.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LandingComponent,
-    SurveysComponent
+    SurveysComponent,
+    AddsurveyComponent
   ],
   imports: [
     BrowserModule,
