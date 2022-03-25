@@ -21,6 +21,10 @@ export class SurveyService {
     return this.http.get(this.surveyUrl);
   }
 
+  getSurveyById(surveyId:string) {
+    return this.http.get(this.surveyUrl+'/'+surveyId);
+  }
+
   addSurvey(survey: any) {
     return this.http.post<any>(this.surveyUrl+'/add', survey, httpOptions)
       .subscribe({
@@ -31,7 +35,6 @@ export class SurveyService {
           console.log(error);
         }
       })
-        
   }
 
   private handleError(error: HttpErrorResponse) {

@@ -16,6 +16,7 @@ import { AddsurveyComponent } from './addsurvey/addsurvey.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { UpdatesurveyComponent } from './updatesurvey/updatesurvey.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { MatInputModule } from '@angular/material/input';
     AppComponent,
     LandingComponent,
     SurveysComponent,
-    AddsurveyComponent
+    AddsurveyComponent,
+    UpdatesurveyComponent
   ],
   imports: [
     BrowserModule,

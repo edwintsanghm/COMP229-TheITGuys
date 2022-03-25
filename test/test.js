@@ -17,7 +17,6 @@ describe('Unit tests for CRUD operations on different end points', () => {
         
         })
         .then((res) => {
-            console.log("@2@@",  res.body);
             const body = res.body;
             surveyId = body.survey._id;
             expect(body.survey).to.contain.property('_id');
@@ -47,7 +46,7 @@ describe('Unit tests for CRUD operations on different end points', () => {
         .send({
             "name":"Test survey222222",
             "description":"description",
-            "questions":[{"title":"q1sdkjfsdhoifjds","qtype":"MC","options":["Asadasdas","Bsadasdas","Cccsdasdq","Dasdsadasdas"],"selectedOption":"Bsadasdas"}]
+            "questions":[{"title":"q1sdkjfsdhoifjds","type":"MC","choices":["Asadasdas","Bsadasdas","Cccsdasdq","Dasdsadasdas"],"selectedOption":"Bsadasdas"}]
         
         })
         .then((res) => {

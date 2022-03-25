@@ -78,9 +78,10 @@ addQuestion() {
   this.questions.push(questionForm);
 }
 
-deleteQuestion(questionIndex: number) {
-  this.questions.removeAt(questionIndex);
-}
+  deleteQuestion(questionIndex: number) {
+    this.questions.removeAt(questionIndex);
+  }
+  
   addChoice(choices:any) {
     const choiceForm = this.fb.group({
       option: ['sample option', Validators.required]
