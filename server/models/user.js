@@ -1,60 +1,53 @@
-// require modules for the User Model
-let mongoose = require('mongoose');
-let passportLocalMongoose = require('passport-local-mongoose');
+var mongoose = require('mongoose');
 
-let User = mongoose.Schema
-(
-    {
-        username: 
-        {
-            type: String,
-            default: '',
-            trim: true,
-            required: 'username is required'
-        },
-        /*
-        password: 
-        {
-            type: String,
-            default: '';
-            trim: true,
-            required: 'password is required'
-        }
-        */
-       email: 
-       {
-            type: String,
-            default: '',
-            trim: true,
-            required: 'email address is required'
-       },
-       displayName: 
-       {
-            type: String,
-            default: '',
-            trim: true,
-            required: 'Display Name is required'
-       },
-       created: 
-       {
-            type: Date,
-            default: Date.now
-       },
-       update: 
-       {
-            type: Date,
-            default: Date.now
-       }
-    },
-    {
-        collection: "users"
-    }
-);
+var uniqueValidator = require('mongoose-unique-validator');
+var crypto = require('crypto');
+var jwt = require('jsonwebtoken');
+var secret = 'group6'
 
-// configure options for User Model
+var UserSchema = new mongoose.Schema({
+  username: {type: String, lowercase: true, unique: true, required: [true, "can't be blank"], match: [/^[a-zA-Z0-9]+$/, 'is invalid'], index: true},
+  email: {type: String, lowercase: true, unique: true, required: [true, "can't be blank"], match: [/\S+@\S+\.\S+/, 'is invalid'], index: true},
+  hash: String,
+  salt: String
+}, {timestamps: true,usePushEach: true});
 
-let options = ({ missingPasswordError: 'Wrong / Missing Password'});
+UserSchema.plugin(uniqueValidator, {message: 'is already taken.'});
 
-User.plugin(passportLocalMongoose, options);
+UserSchema.methods.validPassword = function(password) {
+  var hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
+  return this.hash === hash;
+};
 
-module.exports.User = mongoose.model('User', User);
+UserSchema.methods.setPassword = function(password){
+  this.salt = crypto.randomBytes(16).toString('hex');
+  this.hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
+};
+
+UserSchema.methods.generateJWT = function() {
+  var today = new Date();
+  var exp = new Date(today);
+  exp.setDate(today.getDate() + 60);
+
+  return jwt.sign({
+    id: this._id,
+    username: this.username,
+    exp: parseInt(exp.getTime() / 1000),
+  }, secret);
+};
+
+UserSchema.methods.toAuthJSON = function(){
+  return {
+    username: this.username,
+    email: this.email,
+    token: this.generateJWT(),
+  };
+};
+
+UserSchema.methods.toProfileJSONFor = function(user){
+  return {
+    username: this.username,
+  };
+};
+
+module.exports.User = mongoose.model('User', UserSchema);;

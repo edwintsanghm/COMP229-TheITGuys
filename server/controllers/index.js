@@ -2,7 +2,6 @@ let express = require('express');
 let router = express.Router();
 let mongoose = require('mongoose');
 let passport = require('passport');
-
 // enable jwt
 let jwt = require('jsonwebtoken');
 let DB = require('../config/db');
@@ -33,8 +32,7 @@ module.exports.displayContactPage = (req, res, next) => {
 
 module.exports.displayLoginPage = (req, res, next) => {
     // check if the user is already logged in
-    if(!req.user)
-    {
+    if (!req.user) {
         // res.render('auth/login', 
         // {
         //    title: "Login",
@@ -42,63 +40,35 @@ module.exports.displayLoginPage = (req, res, next) => {
         //    displayName: req.user ? req.user.displayName : '' 
         // })
     }
-    else
-    {
+    else {
         // return res.redirect('/');
     }
 }
 
 module.exports.processLoginPage = (req, res, next) => {
-    passport.authenticate('local',
-    (err, user, info) => {
-        // server err?
-        if(err)
-        {
-            return next(err);
+    if(!req.body.user.email){
+        return res.status(422).json({errors: {email: "can't be blank"}});
+      }
+    
+      if(!req.body.user.password){
+        return res.status(422).json({errors: {password: "can't be blank"}});
+      }
+    
+      passport.authenticate('local', {session: false}, function(err, user, info){
+        if(err){ return next(err); }
+    
+        if(user){
+          user.token = user.generateJWT();
+          return res.json({user: user.toAuthJSON()});
+        } else {
+          return res.status(422).json(info);
         }
-        // is there a user login error?
-        if(!user)
-        {
-            req.flash('loginMessage', 'Authentication Error');
-            return res.redirect('/login');
-        }
-        req.login(user, (err) => {
-            // server error?
-            if(err)
-            {
-                return next(err);
-            }
-
-            const payload = 
-            {
-                id: user._id,
-                displayName: user.displayName,
-                username: user.username,
-                email: user.email
-            }
-
-            const authToken = jwt.sign(payload, DB.Secret, {
-                expiresIn: 604800 // 1 week
-            });
-
-            /* TODO - Getting Ready to convert to API
-            res.json({success: true, msg: 'User Logged in Successfully!', user: {
-                id: user._id,
-                displayName: user.displayName,
-                username: user.username,
-                email: user.email
-            }, token: authToken});
-            */
-
-            // return res.redirect('/book-list');
-        });
-    })(req, res, next);
+      })(req, res, next);
 }
 
 module.exports.displayRegisterPage = (req, res, next) => {
     // check if the user is not already logged in
-    if(!req.user)
-    {
+    if (!req.user) {
         // res.render('auth/register',
         // {
         //     title: 'Register',
@@ -106,58 +76,23 @@ module.exports.displayRegisterPage = (req, res, next) => {
         //     displayName: req.user ? req.user.displayName : ''
         // });
     }
-    else
-    {
+    else {
         // return res.redirect('/');
     }
 }
 
 module.exports.processRegisterPage = (req, res, next) => {
-    // instantiate a user object
-    let newUser = new User({
-        username: req.body.username,
-        //password: req.body.password
-        email: req.body.email,
-        displayName: req.body.displayName
-    });
+    var user = new User();
 
-    User.register(newUser, req.body.password, (err) => {
-        if(err)
-        {
-            console.log("Error: Inserting New User");
-            if(err.name == "UserExistsError")
-            {
-                req.flash(
-                    'registerMessage',
-                    'Registration Error: User Already Exists!'
-                );
-                console.log('Error: User Already Exists!')
-            }
-            return res.render('auth/register',
-            {
-                title: 'Register',
-                messages: req.flash('registerMessage'),
-                displayName: req.user ? req.user.displayName : ''
-            });
-        }
-        else
-        {
-            // if no error exists, then registration is successful
+    user.username = req.body.user.username;
+    user.email = req.body.user.email;
+    user.setPassword(req.body.user.password);
 
-            // redirect the user and authenticate them
-
-            /* TODO - Getting Ready to convert to API
-            res.json({success: true, msg: 'User Registered Successfully!'});
-            */
-
-            return passport.authenticate('local')(req, res, () => {
-                // res.redirect('/book-list')
-            });
-        }
-    });
+    user.save().then(function(){
+        return res.json({user: user.toAuthJSON()});
+      }).catch(next);
 }
 
 module.exports.performLogout = (req, res, next) => {
     req.logout();
-    // res.redirect('/');
 }
