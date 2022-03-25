@@ -20,6 +20,6 @@ router.get('/:id',auth.required,surveyController.displaySpecificSurvey);
 router.get('/delete/:id',auth.required, surveyController.performDelete);
 
 /** GET Route for responses summary */
-router.get('/summary/:id',surveyController.displaySummary);
+router.get('/summary/:id',auth.required,surveyController.displaySummary);
 
 module.exports = router;
