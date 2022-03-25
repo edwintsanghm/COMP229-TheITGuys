@@ -30,9 +30,9 @@ module.exports.processAddPage = async (req, res, next) => {
 
         let createdSurvey = await Survey.create(newSurvey);
 
+
         res.json({
-                survey: createdSurvey,
-                // responses: createResponses || findedUserResponse,
+            survey: createdSurvey
         });
     } catch (e) {
         res.json({
@@ -41,6 +41,81 @@ module.exports.processAddPage = async (req, res, next) => {
     }
 
 }
+
+/**
+ * if there is no user response for the survey.
+ * @param {created survey's _id, survey name, survey questions array} req 
+ * @param {created user response} res 
+ * @param {*} next 
+ */
+module.export.processAddUserReponse = (req, res, next) => {
+    let name = req.body.name;
+    let surveyId = req.body.surveyId;
+    let questions = req.body.questions;
+
+    questionSummary = questions.map(question => {
+        // let selected = question.selectedOption;
+        let options = question.choices;
+        let title = question.title;
+        const obj = {};
+        options.forEach(o => {
+            obj[o] = 0;
+            if (o == selected) {
+                obj[o] = 1;
+            } else {
+                obj[o] = 0;
+            }
+        });
+        return {
+            qtitle: title,
+            stat: obj
+        }
+    });
+
+    let newUserResponse = UserResponse({
+        name: name,
+        survey: [surveyId],
+        summary: questionSummary
+    });
+    let createResponses = await UserResponse.create(newUserResponse);
+    return res.json({
+        userResponse: createResponses
+    });
+}
+
+/**
+ * Append survey to the user response.
+ * @param {created survey's id,created survey's name, survey's questions} req 
+ * @param {created user response} res 
+ * @param {*} next 
+ */
+module.exports.processAddSurveyToUserReponse = (req, res, next) => {
+    let surveyId = req.body.surveyId;
+    let questions = req.body.questions;
+    let name = req.body.name;
+    let findedUserResponse = await UserResponse.findOne({ name: name });
+    if (findedUserResponse != null) {
+        for (let i = 0; i < findedUserResponse.summary.length; i++) {
+            if (questions[i].title == findedUserResponse.summary[i].qtitle) {
+                let updatedValues = findedUserResponse.summary[i].stat[questions[i].selectedOption] + 1;
+                findedUserResponse.summary[i].stat[questions[i].selectedOption] = updatedValues;
+            }
+        }
+
+        findedUserResponse.survey = [...findedUserResponse.survey, surveyId];
+        findedUserResponse.markModified('summary');
+        findedUserResponse.save();
+        return res.json({
+            userReponse:findedUserResponse
+        })
+    } else {
+        return res.status(422).json({
+            "error":`cannot find user response with the name - ${name}`
+        });
+    }
+
+}
+
 
 module.exports.processEditPage = (req, res, next) => {
 
