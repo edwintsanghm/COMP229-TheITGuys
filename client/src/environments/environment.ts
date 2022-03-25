@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiURL: 'https://comp229-the-it-guy-survey-site.herokuapp.com/'
+  apiURL: 'https://comp229-the-it-guy-survey-site.herokuapp.com'
 };
 
 /*
