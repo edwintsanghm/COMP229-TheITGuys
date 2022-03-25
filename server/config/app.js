@@ -31,11 +31,6 @@ mongoDB.once('open', ()=>{
   console.log('Connected to MongoDB...');
 });
 
-let indexRouter = require('../routes/index');
-let usersRouter = require('../routes/users');
-let booksRouter = require('../routes/book');
-let courseRouter = require('../routes/course');
-let surveyRouter = require('../routes/survey');
 
 let app = express();
 
@@ -60,46 +55,13 @@ app.use(session({
 // initialize flash
 app.use(flash());
 
-// initialize passport
-app.use(passport.initialize());
-app.use(passport.session());
 
 // passport user configuration
+require('../models/survey');
+require('../models/user');
+require('./passportAuth');
 
-// create a User Model Instance
-let userModel = require('../models/user');
-let User = userModel.User;
-
-// implement a User Authentication Strategy
-passport.use(User.createStrategy());
-
-// serialize and deserialize the User info
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-
-let jwtOptions = {};
-jwtOptions.jwtFromRequest = ExtractJWT.fromAuthHeaderAsBearerToken();
-jwtOptions.secretOrKey = DB.Secret;
-
-let strategy = new JWTStrategy(jwtOptions, (jwt_payload, done) => {
-  User.findById(jwt_payload.id)
-    .then(user => {
-      return done(null, user);
-    })
-    .catch(err => {
-      return done(err, false);
-    });
-});
-
-passport.use(strategy);
-
-// routing
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/book-list', booksRouter);
-app.use('/api/courses',courseRouter);
-app.use('/api/survey',surveyRouter);
-
+app.use(require('../routes'));
 
 app.all('/*', function(req, res, next) {
     // Just send the index.html for other files to support HTML5Mode
