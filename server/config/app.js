@@ -6,8 +6,6 @@ let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 let cors = require('cors');
 
-app.use(cors()) // for dev, remove in prod
-
 // modules for authentication
 let session = require('express-session');
 let passport = require('passport');
@@ -68,6 +66,14 @@ app.use(require('../routes'));
 app.all('/*', function(req, res, next) {
     // Just send the index.html for other files to support HTML5Mode
     res.sendFile('index.html', { root: path.join(__dirname, '../../public' )});
+});
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", '*');
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+  next();
 });
 
 // catch 404 and forward to error handler
