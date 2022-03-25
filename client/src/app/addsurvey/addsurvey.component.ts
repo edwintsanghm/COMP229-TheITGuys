@@ -78,9 +78,10 @@ addQuestion() {
   this.questions.push(questionForm);
 }
 
-deleteQuestion(questionIndex: number) {
-  this.questions.removeAt(questionIndex);
-}
+  deleteQuestion(questionIndex: number) {
+    this.questions.removeAt(questionIndex);
+  }
+  
   addChoice(choices:any) {
     const choiceForm = this.fb.group({
       option: ['sample option', Validators.required]
@@ -113,7 +114,13 @@ deleteQuestion(questionIndex: number) {
   }
 
   onSubmit() {
-    console.log('onSubmit', this.form.value);
+    
+    this.form.value.questions.map((question:any) => {          
+      question.choices = question.choices.map((choice:any) => {
+        return choice.option;
+      });
+    });
+
     this.surveyService.addSurvey(this.form.value)
 
   }

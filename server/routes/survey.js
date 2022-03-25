@@ -2,24 +2,42 @@ let express = require('express');
 let router = express.Router();
 var auth = require('./auth');
 let surveyController = require('../controllers/survey');
+let cors = require('cors');
 
+// TODO: comment out auth for development
 /* GET Route for the Survey List page - READ Operation */
-router.get('/',auth.required,surveyController.displaySurveyList);
+// router.get('/',auth.required,surveyController.displaySurveyList);
 
+// /* POST Route for processing the Add page - CREATE Operation */
+// router.post('/add',auth.required, surveyController.processAddPage);
+
+// /* GET Route for displaying the Edit page - UPDATE Operation */
+// router.post('/edit/:id',auth.required,surveyController.processEditPage);
+
+// /* GET Route for displaying the Edit page - UPDATE Operation */
+// router.get('/:id',auth.required,surveyController.displaySpecificSurvey);
+
+// /* GET to perform  Deletion - DELETE Operation */
+// router.get('/delete/:id',auth.required, surveyController.performDelete);
+
+// /** GET Route for responses summary */
+// router.get('/summary/:id',auth.required,surveyController.displaySummary);
+
+router.get('/', cors(), surveyController.displaySurveyList);
 
 /* POST Route for processing the Add page - CREATE Operation */
-router.post('/add',auth.required, surveyController.processAddPage);
+router.post('/add', cors(),surveyController.processAddPage);
 
 /* GET Route for displaying the Edit page - UPDATE Operation */
-router.post('/edit/:id',auth.required,surveyController.processEditPage);
+router.post('/edit/:id',cors(),surveyController.processEditPage);
 
 /* GET Route for displaying the Edit page - UPDATE Operation */
-router.get('/:id',auth.required,surveyController.displaySpecificSurvey);
+router.get('/:id',cors(),surveyController.displaySpecificSurvey);
 
 /* GET to perform  Deletion - DELETE Operation */
-router.get('/delete/:id',auth.required, surveyController.performDelete);
+router.get('/delete/:id', cors(),surveyController.performDelete);
 
 /** GET Route for responses summary */
-router.get('/summary/:id',auth.required,surveyController.displaySummary);
+router.get('/summary/:id',cors(),surveyController.displaySummary);
 
 module.exports = router;
