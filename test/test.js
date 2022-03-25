@@ -13,10 +13,11 @@ describe('Unit tests for CRUD operations on different end points', () => {
         .send({
             "name":"Test survey",
             "description":"description",
-            "questions":[{"title":"q1","qtype":"MC","options":["A","B","C","D"],"selectedOption":"B"}]
+            "questions":[{"title":"q1","type":"MC","choices":["A","B","C","D"],"selectedOption":"B"}]
         
         })
         .then((res) => {
+            console.log("@2@@",  res.body);
             const body = res.body;
             surveyId = body.survey._id;
             expect(body.survey).to.contain.property('_id');

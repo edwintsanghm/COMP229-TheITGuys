@@ -1,1 +1,56 @@
-<p>addsurvey works!</p>
+<h3>Add Survey</h3>
+<form class="survey-form" [formGroup]="form" (submit)="onSubmit()">
+    <mat-form-field class="survey-input-full-width" appearance="fill">
+        <input matInput formControlName="name" placeholder="Survey Name">
+    </mat-form-field>
+    <mat-form-field class="survey-input-full-width" appearance="fill">
+        <input matInput formControlName="description" placeholder="Survey Description">
+    </mat-form-field>
+    <ng-container formArrayName="questions">
+        <ng-container *ngFor="let questionForm of questions.controls; let i = index">
+            <div class="lesson-form-row" [formGroup]="questionForm">
+                <mat-form-field class="survey-input-full-width" appearance="fill">
+                    <input matInput formControlName="title" placeholder="Question title">
+                </mat-form-field>
+                <mat-form-field class="survey-input-full-width" appearance="fill">
+                    <!-- <mat-select formControlName="type" placeholder="question type">
+                        <mat-option value="text">Text</mat-option>
+                        <mat-option value="dropdown">dropdown</mat-option>
+                        <mat-option value="radiogroup">radiogroup</mat-option>
+                    </mat-select> -->
+                    <select matNativeControl required formControlName="type">
+                        <option value="text">Text</option>
+                        <!-- <option value="dropdown">MC</option> -->
+                        <option value="radiogroup">Agree/Disagree</option>
+                    </select>
+                </mat-form-field>
+                <div *ngIf="questionForm.value.type == 'radiogroup'">
+                    <ng-container *ngFor="let choiceForm of getChoices(questionForm).controls; let i = index">
+                        <div class="lesson-form-row" [formGroup]="choiceForm">
+                            <mat-form-field appearance="fill">
+                                <input matInput formControlName="option" placeholder="Option">
+                            </mat-form-field>
+                            <mat-icon type="button" class="delete-btn"
+                                (click)="deleteChoice(getChoices(questionForm), i)">
+                                delete_forever</mat-icon>
+                        </div>
+                    </ng-container>
+                    <button type="button" (click)="addChoice(getChoices(questionForm))">
+                        add option
+                    </button>
+                </div>
+                <mat-icon type="button" class="delete-btn" (click)="deleteQuestion(i)">
+                    delete_forever</mat-icon>
+            </div>
+        </ng-container>
+    </ng-container>
+
+    <button mat-mini-fab type="button" (click)="addQuestion()">
+        <mat-icon class="add-course-btn">add</mat-icon>
+    </button>
+
+    <div>
+        <button mat-flat-button color="primary" type="submit" [disabled]="!form.valid">Submit</button>
+    </div>
+
+</form>

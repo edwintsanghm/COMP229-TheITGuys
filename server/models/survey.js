@@ -6,9 +6,11 @@ let questionSchema = mongoose.Schema(
     {
         title: String,
         //MC,Agree/Disagree/ShortQuestion
-        qtype: String,
-        options: [String],
-        selectedOption: String,
+        type: String,
+        choices: [{
+            option: String
+        }],
+        // selectedOption: String,
     },
     {
         collection: "question"
