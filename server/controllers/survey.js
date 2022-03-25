@@ -29,66 +29,6 @@ module.exports.processAddPage = async (req, res, next) => {
         console.log('newSurvey', newSurvey)
 
         let createdSurvey = await Survey.create(newSurvey);
-        
-        
-        // let findedUserResponse = await UserResponse.findOne({ name: req.body.name });
-        // let createResponses = null;
-        // console.log('response', findedUserResponse, createdSurvey);
-        // //if user response exist
-        // if (findedUserResponse != null) {
-        //     let questions = req.body.questions;
-        //     for(let i = 0;i < findedUserResponse.summary.length;i++) {
-        //         if(questions[i].title == findedUserResponse.summary[i].qtitle) {
-        //             let updatedValues = findedUserResponse.summary[i].stat[questions[i].selectedOption] + 1;
-        //             findedUserResponse.summary[i].stat[questions[i].selectedOption] = updatedValues;
-        //         }
-        //     }
-        //     findedUserResponse.survey = [...findedUserResponse.survey, createdSurvey._id];
-        //     findedUserResponse.markModified('summary');
-        //     findedUserResponse.save();
-        // } else {
-        //     // create summary object like..
-        //     // {
-        //     //     qtitle:question1    
-        //     //     stat:{
-        //     //         optionA:0,
-        //     //         optionB:1,
-        //     //     }
-        //     // }
-
-        //     console.log();
-        //     let questions = createdSurvey.questions;
-        //     questionSummary = questions.map(question => {
-        //         // let selected = question.selectedOption;
-        //         let options = question.choices;
-        //         let title = question.title;
-        //         const obj = {};
-        //         options.forEach(o => {
-        //             obj[o] = 0;
-        //             if(o == selected) {
-        //                 obj[o] = 1;
-        //             } else {
-        //                 obj[o] = 0;
-        //             }
-        //         });
-        //         return {
-        //             qtitle:title,
-        //             stat:obj
-        //         }
-        //     });
-        //     //if user response does not exist, create a new response for it    
-        //     let newUserResponse = UserResponse({
-        //         name: createdSurvey.name,
-        //         survey: [createdSurvey._id],
-        //         summary: questionSummary
-        //     });
-        //     createResponses = await UserResponse.create(newUserResponse);
-        // }
-
-        // res.json({
-        //     survey: createdSurvey,
-        //     responses: createResponses || findedUserResponse,
-        // });
 
         res.json({
                 survey: createdSurvey,

@@ -114,7 +114,13 @@ addQuestion() {
   }
 
   onSubmit() {
-    console.log('onSubmit', this.form.value);
+    
+    this.form.value.questions.map((question:any) => {          
+      question.choices = question.choices.map((choice:any) => {
+        return choice.option;
+      });
+    });
+
     this.surveyService.addSurvey(this.form.value)
 
   }

@@ -19,7 +19,7 @@
                         <option value="radiogroup">Agree/Disagree</option>
                     </select>
                 </mat-form-field>
-                <!-- <div *ngIf="questionForm.value.type == 'radiogroup' || questionForm.value.type == 'dropdown'">
+                <div *ngIf="questionForm.value.type == 'radiogroup' || questionForm.value.type == 'dropdown'">
                     <div *ngIf="questionForm.value.type == 'radiogroup'">Add Options</div>
                     <div *ngIf="questionForm.value.type == 'dropdown'">Add Dropdown Options</div>
 
@@ -27,7 +27,6 @@
                         <div class="lesson-form-row" [formGroup]="choiceForm">
 
                             <input *ngIf="questionForm.value.type == 'radiogroup'" type="radio" disabled>
-
 
                             <mat-form-field appearance="fill">
                                 <input matInput formControlName="option" placeholder="Option">
@@ -44,7 +43,7 @@
                 <br />
                 <button mat-raised-button color="red" type="button" (click)="deleteQuestion(i)">
                     Remove Question
-                </button> -->
+                </button>
 
             </div>
         </ng-container>

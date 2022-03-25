@@ -7,9 +7,7 @@ let questionSchema = mongoose.Schema(
         title: String,
         //MC,Agree/Disagree/ShortQuestion
         type: String,
-        choices: [{
-            option: String
-        }],
+        choices: [String],
         // selectedOption: String,
     },
     {

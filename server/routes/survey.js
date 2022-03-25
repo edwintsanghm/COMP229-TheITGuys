@@ -2,6 +2,7 @@ let express = require('express');
 let router = express.Router();
 var auth = require('./auth');
 let surveyController = require('../controllers/survey');
+let cors = require('cors');
 
 // TODO: comment out auth for development
 /* GET Route for the Survey List page - READ Operation */
@@ -22,21 +23,21 @@ let surveyController = require('../controllers/survey');
 // /** GET Route for responses summary */
 // router.get('/summary/:id',auth.required,surveyController.displaySummary);
 
-router.get('/',surveyController.displaySurveyList);
+router.get('/', cors(), surveyController.displaySurveyList);
 
 /* POST Route for processing the Add page - CREATE Operation */
-router.post('/add', surveyController.processAddPage);
+router.post('/add', cors(),surveyController.processAddPage);
 
 /* GET Route for displaying the Edit page - UPDATE Operation */
-router.post('/edit/:id',surveyController.processEditPage);
+router.post('/edit/:id',cors(),surveyController.processEditPage);
 
 /* GET Route for displaying the Edit page - UPDATE Operation */
-router.get('/:id',surveyController.displaySpecificSurvey);
+router.get('/:id',cors(),surveyController.displaySpecificSurvey);
 
 /* GET to perform  Deletion - DELETE Operation */
-router.get('/delete/:id', surveyController.performDelete);
+router.get('/delete/:id', cors(),surveyController.performDelete);
 
 /** GET Route for responses summary */
-router.get('/summary/:id',surveyController.displaySummary);
+router.get('/summary/:id',cors(),surveyController.displaySummary);
 
 module.exports = router;

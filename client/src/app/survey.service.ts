@@ -25,6 +25,18 @@ export class SurveyService {
     return this.http.get(this.surveyUrl+'/'+surveyId);
   }
 
+  updateSurvey(surveyId:string, survey: any) {
+    return this.http.post<any>(this.surveyUrl+'/edit/'+surveyId, survey, httpOptions)
+      .subscribe({
+        next: data => {
+          console.log(data);
+        },
+        error: error =>{
+          console.log(error);
+        }
+      })
+  }
+
   addSurvey(survey: any) {
     return this.http.post<any>(this.surveyUrl+'/add', survey, httpOptions)
       .subscribe({
