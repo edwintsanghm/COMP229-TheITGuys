@@ -8,7 +8,7 @@ let questionSchema = mongoose.Schema(
         //MC,Agree/Disagree/ShortQuestion
         type: String,
         choices: [String],
-        // selectedOption: String,
+        selectedOption: String,
     },
     {
         collection: "question"
@@ -20,7 +20,7 @@ let questionSchema = mongoose.Schema(
 let surveySchema = mongoose.Schema({
     name: String,
     description: String,
-    //no user for now
+    //no use for now
     // owner: {
     //     type: mongoose.Schema.ObjectId,
     //     ref: "User"

@@ -3,6 +3,7 @@ let survey = require('../models/survey');
 let UserResponse = survey.UserResponse;
 let Survey = survey.Survey;
 let Question = survey.Question;
+
 module.exports.displaySurveyList = (req, res, next) => {
     Survey.find((err, surveys) => {
         if (err) {
@@ -50,11 +51,8 @@ module.exports.processAddPage = async (req, res, next) => {
  */
 module.exports.processAddUserReponse = async (req, res, next) => {
     let name = req.body.name;
-    let surveyId = req.body.surveyId;
+    let surveyId = req.params.surveyId;
     let questions = req.body.questions;
-
-    console.log(name, surveyId, questions)
-
     questionSummary = questions.map(question => {
         let selected = question.selectedOption;
         let options = question.choices;
@@ -69,7 +67,7 @@ module.exports.processAddUserReponse = async (req, res, next) => {
             }
         });
         return {
-            qtitle: title,
+            title: title,
             stat: obj
         }
     });
@@ -92,15 +90,15 @@ module.exports.processAddUserReponse = async (req, res, next) => {
  * @param {*} next 
  */
 module.exports.processAddSurveyToUserReponse = async (req, res, next) => {
-    let surveyId = req.body.surveyId;
+    console.log(req.params.surveyId);
+    let surveyId = req.params.surveyId;
     let questions = req.body.questions;
     let name = req.body.name;
     let findedUserResponse = await UserResponse.findOne({ name: name });
     if (findedUserResponse != null) {
         for (let i = 0; i < findedUserResponse.summary.length; i++) {
-            if (questions[i].title == findedUserResponse.summary[i].qtitle) {
-                let updatedValues = findedUserResponse.summary[i].stat[questions[i].selectedOption] + 1;
-                findedUserResponse.summary[i].stat[questions[i].selectedOption] = updatedValues;
+            if (questions[i].title == findedUserResponse.summary[i].title) {
+                findedUserResponse.summary[i].stat[questions[i].selectedOption] = findedUserResponse.summary[i].stat[questions[i].selectedOption] + 1;
             }
         }
 
