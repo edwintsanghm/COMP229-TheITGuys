@@ -37,8 +37,23 @@ export class SurveyService {
       })
   }
 
+  deleteSurvey(surveyId:string) {
+    return this.http.get(this.surveyUrl+'/delete/'+surveyId);
+  }
   addSurvey(survey: any) {
     return this.http.post<any>(this.surveyUrl+'/add', survey, httpOptions)
+      .subscribe({
+        next: data => {
+          console.log(data);
+        },
+        error: error =>{
+          console.log(error);
+        }
+      })
+  }
+  respondSurvey(surveyId:string, respond: any) {
+    console.log(surveyId, respond);
+    return this.http.post<any>(this.surveyUrl+'/respond/'+surveyId, respond, httpOptions)
       .subscribe({
         next: data => {
           console.log(data);

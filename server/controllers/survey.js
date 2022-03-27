@@ -48,13 +48,15 @@ module.exports.processAddPage = async (req, res, next) => {
  * @param {created user response} res 
  * @param {*} next 
  */
-module.export.processAddUserReponse = (req, res, next) => {
+module.exports.processAddUserReponse = async (req, res, next) => {
     let name = req.body.name;
     let surveyId = req.body.surveyId;
     let questions = req.body.questions;
 
+    console.log(name, surveyId, questions)
+
     questionSummary = questions.map(question => {
-        // let selected = question.selectedOption;
+        let selected = question.selectedOption;
         let options = question.choices;
         let title = question.title;
         const obj = {};
@@ -89,7 +91,7 @@ module.export.processAddUserReponse = (req, res, next) => {
  * @param {created user response} res 
  * @param {*} next 
  */
-module.exports.processAddSurveyToUserReponse = (req, res, next) => {
+module.exports.processAddSurveyToUserReponse = async (req, res, next) => {
     let surveyId = req.body.surveyId;
     let questions = req.body.questions;
     let name = req.body.name;

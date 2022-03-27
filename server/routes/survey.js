@@ -34,6 +34,8 @@ router.post('/edit/:id',cors(),surveyController.processEditPage);
 /* GET Route for displaying the Edit page - UPDATE Operation */
 router.get('/:id',cors(),surveyController.displaySpecificSurvey);
 
+router.post('/respond/:id',cors(),surveyController.processAddUserReponse);
+
 /* GET to perform  Deletion - DELETE Operation */
 router.get('/delete/:id', cors(),surveyController.performDelete);
 

@@ -1,4 +1,3 @@
-
 <a mat-raised-button color="primary" href="/add">Create Your Survey</a>
 
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
@@ -17,9 +16,9 @@
     <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td mat-cell *matCellDef="let survey">
-             <a [href]="'/edit/'+survey._id">Edit</a> / 
-             <a [href]="'/delete/'+survey._id">Delete</a> / 
-             <a [href]="'/stat/'+survey._id">Statistic</a>
+            <a [href]="'/edit/'+survey._id">Edit</a> /
+            <button mat-flat-button (click)="onClickDelete(survey._id)">Delete</button> /
+            <a [href]="'/stat/'+survey._id">Statistic</a>
         </td>
     </ng-container>
 

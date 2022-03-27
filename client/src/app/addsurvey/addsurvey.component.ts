@@ -54,29 +54,29 @@ export class AddsurveyComponent implements OnInit {
     questions: this.fb.array([])
   });
 
-constructor(private fb:FormBuilder, private surveyService: SurveyService) {}
+  constructor(private fb:FormBuilder, private surveyService: SurveyService) {}
 
-get questions() {
-  return this.form.controls["questions"] as FormArray;
-}
+  get questions() {
+    return this.form.controls["questions"] as FormArray;
+  }
 
-getChoices(questionForm:FormGroup) {
-  return questionForm.controls['choices'] as FormArray;
-}
+  getChoices(questionForm:FormGroup) {
+    return questionForm.controls['choices'] as FormArray;
+  }
 
-addQuestion() {
-  const questionForm = this.fb.group({
-    title: ['', Validators.required],
-    type: ['', Validators.required],
-    choices: this.fb.array([
-      this.fb.group({
-        option: ['sample option', Validators.required]
-      })
-    ]),
-  });
+  addQuestion() {
+    const questionForm = this.fb.group({
+      title: ['', Validators.required],
+      type: ['', Validators.required],
+      choices: this.fb.array([
+        this.fb.group({
+          option: ['', Validators.required]
+        })
+      ]),
+    });
 
-  this.questions.push(questionForm);
-}
+    this.questions.push(questionForm);
+  }
 
   deleteQuestion(questionIndex: number) {
     this.questions.removeAt(questionIndex);
@@ -84,7 +84,7 @@ addQuestion() {
   
   addChoice(choices:any) {
     const choiceForm = this.fb.group({
-      option: ['sample option', Validators.required]
+      option: ['', Validators.required]
     });
 
     choices.push(choiceForm);
@@ -95,26 +95,9 @@ addQuestion() {
   }
 
   ngOnInit(): void {
-    // this.sf = this.surveyForm.controls['questions']);
-    StylesManager.applyTheme("modern");
-    const survey = new Model(surveyJson);
-    survey.onComplete.add(this.alertResults);
-
-    SurveyNG.render("surveyContainer", { model: survey });
-  }
-
-  alertResults (sender:any) {
-    const results = JSON.stringify(sender.data);
-    alert(results);
-  }
-
-  isMC() {
-    // console.log(this.surveyForm.value);
-    return true;
   }
 
   onSubmit() {
-    
     this.form.value.questions.map((question:any) => {          
       question.choices = question.choices.map((choice:any) => {
         return choice.option;

@@ -22,25 +22,24 @@ export class RespondComponent implements OnInit {
         this.surveyService.getSurveyById(params.get('id')!))
     ).pipe(
       map((data:any) => {
-        // this.form.patchValue({
-        //   name: data.survey.name,
-        //   description: data.survey.description,
-        // })
-
-        // console.log(data.survey._id)
-        // this.surveyId = data.survey._id;
-        // console.log( this.surveyId)
-        const self = this;
         StylesManager.applyTheme("modern");
         const survey = new Model(data.survey);
+        console.log(data.survey.questions[0])
         survey.onComplete.add((sender:any, options:any) => {
-          const result = { ...sender.data, surveyId: data.survey._id};
+          let surveyData = data.survey;
+          for (const [key, value] of Object.entries(sender.data)) {
+            console.log(`${key.replace('question', '')}: ${value}`);
+            let i = Number(key.replace('question', ''))-1;
+            surveyData.questions[i].selectedOption = value;
+          }
 
-          console.log(result);
+          this.surveyService.respondSurvey(data.survey._id, surveyData);
+
         });
 
         SurveyNG.render("surveyContainer", { model: survey });
       }),
+      tap((result:any) => console.log('result', result))
     ).subscribe();
 
   }
