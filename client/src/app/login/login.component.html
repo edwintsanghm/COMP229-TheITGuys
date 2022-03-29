@@ -1,0 +1,12 @@
+<div class="page-wrapper form-wrapper">
+    <form id="login" (ngSubmit)="login()">
+        <h1>Login</h1>
+        <p>Email</p>
+        <input type="email" [(ngModel)]="email" name="email"/>
+        <p>Password</p>
+        <input type="password" [(ngModel)]="password" name="password"/>
+
+        <p class="status">{{status}}</p>
+        <button type="submit">Log In</button>
+    </form>
+</div>

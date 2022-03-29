@@ -7,9 +7,15 @@ import { UpdatesurveyComponent } from './updatesurvey/updatesurvey.component';
 import { RespondComponent } from './respond/respond.component';
 import { SurveysManageComponent } from './surveys-manage/surveys-manage.component';
 import { SurveyStatComponent } from './survey-stat/survey-stat.component';
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
 
 const routes: Routes = [{
   path:'', component: LandingComponent
+},{
+  path:'login', component: LoginComponent
+},{
+  path:'signup', component: SignupComponent
 },{
   path:'surveys', component: SurveysComponent
 },{
