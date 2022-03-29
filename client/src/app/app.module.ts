@@ -15,11 +15,23 @@ import { HttpClientModule } from '@angular/common/http';
 import { AddsurveyComponent } from './addsurvey/addsurvey.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
+// import { FormsModule } from '@angular/forms';
+
 import { MatInputModule } from '@angular/material/input';
 import { UpdatesurveyComponent } from './updatesurvey/updatesurvey.component';
 import { RespondComponent } from './respond/respond.component';
 import { SurveysManageComponent } from './surveys-manage/surveys-manage.component';
 import { SurveyStatComponent } from './survey-stat/survey-stat.component';
+
+import { JwtModule } from '@auth0/angular-jwt';
+import { AuthGuard } from './auth.guard';
+import { LoginService} from './login.service';
+import { SurveyService} from './survey.service';
+import { SignupComponent } from './signup/signup.component';
+import { LoginComponent } from './login/login.component';
+export function tokenGetter() {
+  return localStorage.getItem('access_token');
+}
 
 
 @NgModule({
@@ -31,7 +43,9 @@ import { SurveyStatComponent } from './survey-stat/survey-stat.component';
     UpdatesurveyComponent,
     RespondComponent,
     SurveysManageComponent,
-    SurveyStatComponent
+    SurveyStatComponent,
+    SignupComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -44,9 +58,14 @@ import { SurveyStatComponent } from './survey-stat/survey-stat.component';
     ReactiveFormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter
+      }
+    })
   ],
-  providers: [],
+  providers: [AuthGuard, LoginService, SurveyService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

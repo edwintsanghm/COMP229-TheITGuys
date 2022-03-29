@@ -1,12 +1,27 @@
-<div class="page-wrapper form-wrapper">
+<!-- <div class="page-wrapper form-wrapper">
     <form id="login" (ngSubmit)="login()">
         <h1>Login</h1>
         <p>Email</p>
-        <input type="email" [(ngModel)]="email" name="email"/>
+        <input type="email" [(ngModel)]="email" name="email" />
         <p>Password</p>
-        <input type="password" [(ngModel)]="password" name="password"/>
+        <input type="password" [(ngModel)]="password" name="password" />
 
         <p class="status">{{status}}</p>
         <button type="submit">Log In</button>
+    </form>
+</div> -->
+<div class="page-wrapper form-wrapper">
+    <form id="login" [formGroup]="form" (submit)="login()">
+        <mat-form-field class="survey-input-full-width" appearance="fill">
+            <input matInput formControlName="email" placeholder="email">
+        </mat-form-field>
+        <mat-form-field class="survey-input-full-width" appearance="fill">
+            <input matInput formControlName="password" placeholder="password">
+        </mat-form-field>
+
+        <div>
+            <button mat-flat-button color="primary" type="submit" [disabled]="!form.valid">Login</button>
+        </div>
+
     </form>
 </div>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, catchError, throwError, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 const httpOptions = {
   headers: new HttpHeaders({
@@ -18,7 +18,9 @@ export class LoginService {
   constructor(private http: HttpClient) { }
 
   login(username:string, password:string) {
-    return this.http.post(this.apiURL+'/login', {email: username, password: password});
+    return this.http.post(this.apiURL+'/login', {email: username, password: password}).pipe(
+      map(result => console.log(result))
+    );
   }
 
   register(username:string, password:string) {

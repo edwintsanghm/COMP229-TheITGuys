@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../login.service';
-import { SurveyService } from '../survey.service';
+import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -9,17 +9,22 @@ import { SurveyService } from '../survey.service';
 })
 export class LoginComponent implements OnInit {
 
-  public email:string = "";
-  public password:string = "";
+  // public email:string = "";
+  // public password:string = "";
   public status:string = "";
 
-  constructor(private loginService: LoginService) { }
+  form = this.fb.group({
+    email:['', Validators.required],
+    password:['', Validators.required],
+  });
+
+  constructor(private loginService: LoginService, private fb:FormBuilder) { }
 
   ngOnInit(): void {
   }
 
   login():void {
-    this.loginService.login(this.email, this.password).subscribe((data: any) => { 
+    this.loginService.login(this.form.value.email, this.form.value.password).subscribe((data: any) => { 
       if(data.status != 200) 
         this.status = "Internal Server Error";
     });

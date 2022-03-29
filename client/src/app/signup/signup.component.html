@@ -1,4 +1,4 @@
-<div class="page-wrapper form-wrapper">
+<!-- <div class="page-wrapper form-wrapper">
     <form id="signup" (ngSubmit)="register()">
         <h1>Sign Up</h1>
         <p>Email</p>
@@ -10,5 +10,24 @@
 
         <p class="status">{{status}}</p>
         <button type="submit">Sign Up</button>
+    </form>
+</div> -->
+
+<div class="page-wrapper form-wrapper">
+    <form id="signup" [formGroup]="form" (submit)="register()">
+        <mat-form-field class="survey-input-full-width" appearance="fill">
+            <input matInput formControlName="email" placeholder="email">
+        </mat-form-field>
+        <mat-form-field class="survey-input-full-width" appearance="fill">
+            <input matInput type="password" formControlName="password" placeholder="password">
+        </mat-form-field>
+        <mat-form-field class="survey-input-full-width" appearance="fill">
+            <input matInput type="password" formControlName="cpassword" placeholder="confirm password">
+        </mat-form-field>
+
+        <div>
+            <button mat-flat-button color="primary" type="submit" [disabled]="!form.valid">Sign Up</button>
+        </div>
+
     </form>
 </div>
