@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../login.service';
 import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -14,19 +15,24 @@ export class LoginComponent implements OnInit {
   public status:string = "";
 
   form = this.fb.group({
-    email:['', Validators.required],
+    username:['', Validators.required],
     password:['', Validators.required],
   });
 
-  constructor(private loginService: LoginService, private fb:FormBuilder) { }
+  constructor(private loginService: LoginService, private fb:FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   login():void {
-    this.loginService.login(this.form.value.email, this.form.value.password).subscribe((data: any) => { 
-      if(data.status != 200) 
-        this.status = "Internal Server Error";
+    console.log(this.form.value)
+    this.loginService.login(this.form.value.username, this.form.value.password).subscribe((data: any) => { 
+      if(!data.user) {
+        this.status = "Login Fail";
+      } else {
+        // redirect
+        this.router.navigate(['/']);
+      }
     });
   }
 

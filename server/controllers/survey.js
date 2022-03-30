@@ -50,6 +50,8 @@ module.exports.processAddPage = async (req, res, next) => {
  * @param {*} next 
  */
 module.exports.processAddUserReponse = async (req, res, next) => {
+
+    console.log('first time');
     let name = req.body.name;
     let surveyId = req.params.surveyId;
     let questions = req.body.questions;
@@ -90,7 +92,7 @@ module.exports.processAddUserReponse = async (req, res, next) => {
  * @param {*} next 
  */
 module.exports.processAddSurveyToUserReponse = async (req, res, next) => {
-    console.log(req.params.surveyId);
+    console.log('for update', req.params.surveyId);
     let surveyId = req.params.surveyId;
     let questions = req.body.questions;
     let name = req.body.name;
@@ -109,9 +111,11 @@ module.exports.processAddSurveyToUserReponse = async (req, res, next) => {
             userReponse:findedUserResponse
         })
     } else {
-        return res.status(422).json({
-            "error":`cannot find user response with the name - ${name}`
-        });
+
+        return this.processAddUserReponse(req, res, next);
+        // return res.status(422).json({
+        //     "error":`cannot find user response with the name - ${name}`
+        // });
     }
 
 }

@@ -18,12 +18,17 @@ export class LoginService {
   constructor(private http: HttpClient) { }
 
   login(username:string, password:string) {
-    return this.http.post(this.apiURL+'/login', {email: username, password: password}).pipe(
-      map(result => console.log(result))
+    return this.http.post(this.apiURL+'/login', {username: username, password: password}).pipe(
+      map((result:any) => {
+        if(result.user)
+          localStorage.setItem('access_token', result.user.token);
+          
+        return result;
+      })
     );
   }
 
   register(username:string, password:string) {
-    return this.http.post(this.apiURL+'/register', {email: username, password: password});
+    return this.http.post(this.apiURL+'/register', {username: username, password: password});
   }
 }

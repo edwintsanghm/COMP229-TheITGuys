@@ -15,16 +15,9 @@
 
 <div class="page-wrapper form-wrapper">
     <form id="signup" [formGroup]="form" (submit)="register()">
-        <mat-form-field class="survey-input-full-width" appearance="fill">
-            <input matInput formControlName="email" placeholder="email">
-        </mat-form-field>
-        <mat-form-field class="survey-input-full-width" appearance="fill">
-            <input matInput type="password" formControlName="password" placeholder="password">
-        </mat-form-field>
-        <mat-form-field class="survey-input-full-width" appearance="fill">
-            <input matInput type="password" formControlName="cpassword" placeholder="confirm password">
-        </mat-form-field>
-
+        <input formControlName="email" placeholder="email">
+        <input type="password" formControlName="password" placeholder="password">
+        <input type="password" formControlName="cpassword" placeholder="confirm password">
         <div>
             <button mat-flat-button color="primary" type="submit" [disabled]="!form.valid">Sign Up</button>
         </div>

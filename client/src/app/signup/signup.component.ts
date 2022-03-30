@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../login.service';
 import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -21,7 +22,7 @@ export class SignupComponent implements OnInit {
   });
 
 
-  constructor(private loginService: LoginService,private fb:FormBuilder) { }
+  constructor(private loginService: LoginService,private fb:FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -34,8 +35,12 @@ export class SignupComponent implements OnInit {
     }
 
     this.loginService.register(this.form.value.email, this.form.value.password).subscribe((data: any) => { 
-      if(data.status != 200) 
-        this.status = "Internal Server Error";
+      if(!data.user) {
+        this.status = "Login Fail";
+      } else {
+        // redirect
+        this.router.navigate(['/']);
+      }
     });
   }
 

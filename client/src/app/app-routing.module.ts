@@ -9,6 +9,7 @@ import { SurveysManageComponent } from './surveys-manage/surveys-manage.componen
 import { SurveyStatComponent } from './survey-stat/survey-stat.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [{
   path:'', component: LandingComponent
@@ -19,15 +20,15 @@ const routes: Routes = [{
 },{
   path:'surveys', component: SurveysComponent
 },{
-  path:'add', component: AddsurveyComponent
+  path:'add', component: AddsurveyComponent,canActivate: [AuthGuard]
 },{
-  path: 'edit/:id', component: UpdatesurveyComponent 
+  path: 'edit/:id', component: UpdatesurveyComponent ,canActivate: [AuthGuard]
 },{
   path:'respond/:id', component: RespondComponent
 },{
-  path:'surveysManage', component: SurveysManageComponent
+  path:'surveysManage', component: SurveysManageComponent,canActivate: [AuthGuard]
 },{
-  path:'stat/:id', component: SurveyStatComponent
+  path:'stat/:id', component: SurveyStatComponent,canActivate: [AuthGuard]
 }];
 
 @NgModule({

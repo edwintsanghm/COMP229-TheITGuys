@@ -26,20 +26,20 @@ let cors = require('cors');
 router.get('/', cors(), surveyController.displaySurveyList);
 
 /* POST Route for processing the Add page - CREATE Operation */
-router.post('/add', cors(),surveyController.processAddPage);
+router.post('/add', cors(),auth.required,surveyController.processAddPage);
 
 /* GET Route for displaying the Edit page - UPDATE Operation */
-router.post('/edit/:id',cors(),surveyController.processEditPage);
+router.post('/edit/:id',cors(),auth.required,surveyController.processEditPage);
 
 /* GET Route for displaying the Edit page - UPDATE Operation */
-router.get('/:id',cors(),surveyController.displaySpecificSurvey);
+router.get('/:id',cors(), surveyController.displaySpecificSurvey);
 
-router.post('/respond/:id',cors(),surveyController.processAddUserReponse);
+router.post('/respond/:surveyId',cors(), surveyController.processAddSurveyToUserReponse);
 
 /* GET to perform  Deletion - DELETE Operation */
-router.get('/delete/:id', cors(),surveyController.performDelete);
+router.get('/delete/:id', cors(), auth.required, surveyController.performDelete);
 
 /** GET Route for responses summary */
-router.get('/summary/:id',cors(),surveyController.displaySummary);
+router.get('/summary/:id',cors(), auth.required, surveyController.displaySummary);
 
 module.exports = router;

@@ -5,7 +5,8 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from
 export class AuthGuard implements CanActivate {
   constructor(private router: Router) { }
 
-  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  canActivate() {
+    console.log('canActivate');
     if (localStorage.getItem('access_token')) {
       return true;
     }
