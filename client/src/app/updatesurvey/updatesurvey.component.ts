@@ -120,7 +120,7 @@ deleteQuestion(questionIndex: number) {
     console.log('onSubmit', this.form.value);
 
     this.surveyService.updateSurvey(this.surveyId, this.form.value);
-
+    this.router.navigate(['/surveysManage']);
   }
 
 }

@@ -25,12 +25,15 @@ export class LoginComponent implements OnInit {
   }
 
   login():void {
-    console.log(this.form.value)
     this.loginService.login(this.form.value.username, this.form.value.password).subscribe((data: any) => { 
+      console.log("try Login");
+      this.status = 'Testing'
       if(!data.user) {
         this.status = "Login Fail";
+        console.log(this.status);
       } else {
         // redirect
+        console.log('login success')
         this.router.navigate(['/']);
       }
     });

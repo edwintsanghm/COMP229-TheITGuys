@@ -3,7 +3,7 @@ import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@ang
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { StylesManager, Model, SurveyNG  } from "survey-angular";
 import { SurveyService } from '../survey.service';
-
+import { Router } from '@angular/router';
 
 const surveyJson = {
   elements: [{
@@ -54,7 +54,7 @@ export class AddsurveyComponent implements OnInit {
     questions: this.fb.array([])
   });
 
-  constructor(private fb:FormBuilder, private surveyService: SurveyService) {}
+  constructor(private fb:FormBuilder, private surveyService: SurveyService, private router: Router) {}
 
   get questions() {
     return this.form.controls["questions"] as FormArray;
@@ -98,6 +98,7 @@ export class AddsurveyComponent implements OnInit {
   }
 
   onSubmit() {
+    
     this.form.value.questions.map((question:any) => {          
       question.choices = question.choices.map((choice:any) => {
         return choice.option;
@@ -105,6 +106,6 @@ export class AddsurveyComponent implements OnInit {
     });
 
     this.surveyService.addSurvey(this.form.value)
-
+    this.router.navigate(['/surveysManage']);
   }
 }

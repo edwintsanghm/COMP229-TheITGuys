@@ -10,7 +10,7 @@ export class AppComponent {
   loggedin!: boolean;
 
   isLoggedIn() {
-    console.log('123', localStorage.getItem('access_token'));
+    //console.log('123', localStorage.getItem('access_token'));
     if (localStorage.getItem('access_token') == null) {
 
       this.loggedin = false;
