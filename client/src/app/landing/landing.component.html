@@ -1,3 +1,13 @@
 <img src="assets/logo.png" alt="The IT Guys" width="50%" height="50%" class="center" />
 <br />
+
+<div *ngIf="isLogined(); else notLogin">
 <a mat-raised-button color="primary" href="/add">Create Your Survey</a>
+</div>
+
+<ng-template #notLogin>
+    <p>Login to create your own survey</p>
+    <a mat-raised-button color="primary" href="/login">Login</a>
+  </ng-template>
+  <p>Or Reponse to surveys below</p>
+<app-surveys></app-surveys>

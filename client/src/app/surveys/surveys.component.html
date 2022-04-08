@@ -14,10 +14,11 @@
 
         <ng-container matColumnDef="respondSurvey">
             <th mat-header-cell *matHeaderCellDef> Respond </th>
-            <td mat-cell *matCellDef="let survey"> <a [href]="'/respond/'+survey._id">Enter</a> </td>
+            <td mat-cell *matCellDef="let survey"><button mat-raised-button
+                    (click)="onClickRespond(survey._id)">Enter</button></td>
         </ng-container>
+
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-</div>

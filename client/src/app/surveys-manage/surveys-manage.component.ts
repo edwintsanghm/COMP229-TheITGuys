@@ -26,5 +26,4 @@ export class SurveysManageComponent implements OnInit {
         this.dataSource = data.surveyList})
     ).subscribe(() => console.log('refreshed list'));
   }
-
 }

@@ -8,8 +8,18 @@ import { Component, OnInit } from '@angular/core';
 export class LandingComponent implements OnInit {
 
   constructor() { }
-
+  isLogin = false
   ngOnInit(): void {
+    if (localStorage.getItem('access_token')) {
+      this.isLogin=true
+    }else {
+      this.isLogin=false
+    }
   }
-
+  isLogined():boolean{
+    if (localStorage.getItem('access_token')) {
+      return true
+    }
+    return false
+  }
 }
