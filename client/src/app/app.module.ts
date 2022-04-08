@@ -31,6 +31,8 @@ import { SurveyService} from './survey.service';
 import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
 import { AuthInterceptor } from './auth.interceptor';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatDividerModule} from '@angular/material/divider';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -58,6 +60,8 @@ export function tokenGetter() {
     MatTableModule,
     MatFormFieldModule,
     MatInputModule,
+    MatTooltipModule,
+    MatDividerModule, 
     MatCardModule,
     ReactiveFormsModule,
     AppRoutingModule,

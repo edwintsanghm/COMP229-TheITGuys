@@ -1,28 +1,34 @@
-<a mat-raised-button color="primary" href="/add">Create Your Survey</a>
+<h3 class="center">Mange Survey</h3>
+<a mat-fab color="primary" href="/add" class="fab-add" aria-label="Create New Survey" matTooltip="Create New Survey"
+    matTooltipPosition="above">
+    <mat-icon>add</mat-icon>
+</a>
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<div class="wrapper center">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-    <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let survey"> {{survey.name}} </td>
-    </ng-container>
-
-
-    <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef> Description </th>
-        <td mat-cell *matCellDef="let survey"> {{survey.description}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
-        <td mat-cell *matCellDef="let survey">
-            <a [href]="'/edit/'+survey._id">Edit</a> /
-            <button mat-flat-button (click)="onClickDelete(survey._id)">Delete</button> /
-            <a [href]="'/stat/'+survey._id">Statistic</a>
-        </td>
-    </ng-container>
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let survey"> {{survey.name}} </td>
+        </ng-container>
 
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+        <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let survey"> {{survey.description}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let survey" class="actionCell">
+                <a mat-stroked-button [href]="'/edit/'+survey._id" class="actionButtons">Edit</a>
+                <a mat-stroked-button [href]="'/stat/'+survey._id" class="actionButtons">Statistic</a>
+                <mat-divider [vertical]="true" class="actionButtons deleteButton"></mat-divider>
+                <button mat-stroked-button color="warn" (click)="onClickDelete(survey._id)"
+                    class="actionButtons">Delete</button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>

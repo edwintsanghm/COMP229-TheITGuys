@@ -32,9 +32,7 @@ export class RespondComponent implements OnInit {
             let i = Number(key.replace('question', ''))-1;
             surveyData.questions[i].selectedOption = value;
           }
-
           this.surveyService.respondSurvey(data.survey._id, surveyData);
-
         });
 
         SurveyNG.render("surveyContainer", { model: survey });
