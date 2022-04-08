@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
-import { MatFormFieldControl } from '@angular/material/form-field';
-import { StylesManager, Model, SurveyNG  } from "survey-angular";
+import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { SurveyService } from '../survey.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { switchMap, map, tap } from 'rxjs/operators';
+import { switchMap, map, tap, filter, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-updatesurvey',
@@ -22,9 +21,19 @@ export class UpdatesurveyComponent implements OnInit {
   });
   surveyId!:string;
 
+  isEditMode!:boolean;
 
   ngOnInit(): void {
     this.route.paramMap.pipe(
+      filter((params:ParamMap) => {
+        if(params.get('id')!= null) {
+          this.isEditMode = true;
+        } else {
+          this.isEditMode = false;
+          this.addQuestion();
+        }
+        return params.get('id') != null;
+      }),
       switchMap((params: ParamMap) =>
         this.surveyService.getSurveyById(params.get('id')!))
     ).pipe(
@@ -45,59 +54,58 @@ export class UpdatesurveyComponent implements OnInit {
               type: [question.type, Validators.required],
               choices: this.fb.array([])
             });
-    
+
             let choiceForm = this.getChoices(questionForm);
             if(question.choices?.length > 0) {
               question.choices.map((choice:any) => 
-                choiceForm.push(this.fb.group({"option": [choice]}))
+                choiceForm.push(this.fb.group({"option": [choice, Validators.required]}))
               )
-            } 
+            }
+
+            this.initQuestionTypeChangeListener(questionForm);
+            
             this.questions.push(questionForm);
           })
         }
       }),
-    ).subscribe();
-
-
-    // console.log(this.questions)
-    // this.questions..get('type')?.valueChanges.subscribe(value => {
-    //   console.log(value)
-    //   if(value != "text") {
-    //     this.form.get('option')?.clearValidators();
-    //   } else {
-
-    //   }
-    // })
-        
-
+      catchError((err:any) => of("Error: ", err))
+    ).subscribe(val => console.log(val));
   }
- 
-  
-get questions() {
-  return this.form.controls["questions"] as FormArray;
-}
 
-getChoices(questionForm:FormGroup) {
-  return questionForm.controls['choices'] as FormArray;
-}
+  initQuestionTypeChangeListener(questionForm:FormGroup) {
+    questionForm.get('type')?.valueChanges.subscribe((value:any) => {
+      questionForm.removeControl('choices');
+      let choices = new FormArray([]);
+      questionForm.addControl('choices',choices);
+      if(value != 'text') {
+        choices.push(this.fb.group({option: ['', Validators.required]}))
+      } else {
+        choices.push(this.fb.group({option: ['']}))
+      }
+      questionForm.updateValueAndValidity();
+    });
+  }
+    
+  get questions() {
+    return this.form.controls["questions"] as FormArray;
+  }
 
-addQuestion() {
-  const questionForm = this.fb.group({
-    title: ['', Validators.required],
-    type: ['', Validators.required],
-    choices: this.fb.array([
-      this.fb.group({
-        option: ['']
-      })
-    ]),
-  });
+  getChoices(questionForm:FormGroup) {
+    return questionForm.controls['choices'] as FormArray;
+  }
 
-  this.questions.push(questionForm);
-}
+  addQuestion() {
+    const questionForm = this.fb.group({
+      title: ['', Validators.required],
+      type: ['', Validators.required],
+    });
+    
+    this.questions.push(questionForm);
+  }
 
-deleteQuestion(questionIndex: number) {
-  this.questions.removeAt(questionIndex);
-}
+  deleteQuestion(questionIndex: number) {
+    this.questions.removeAt(questionIndex);
+  }
   addChoice(choices:any) {
     const choiceForm = this.fb.group({
       option: ['', Validators.required]
@@ -117,9 +125,11 @@ deleteQuestion(questionIndex: number) {
       });
     });
 
-    console.log('onSubmit', this.form.value);
-
-    this.surveyService.updateSurvey(this.surveyId, this.form.value);
+    if(this.isEditMode){
+      this.surveyService.updateSurvey(this.surveyId, this.form.value);
+    } else {
+      this.surveyService.addSurvey(this.form.value);
+    }
     this.router.navigate(['/surveysManage']);
   }
 

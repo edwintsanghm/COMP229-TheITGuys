@@ -1,46 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { StylesManager, Model, SurveyNG  } from "survey-angular";
 import { SurveyService } from '../survey.service';
 import { Router } from '@angular/router';
-
-const surveyJson = {
-  elements: [{
-    name: "FirstName",
-    title: "Enter your first name:",
-    enableIf: false,
-    type: "text"
-  }, {
-    name: "LastName",
-    title: "Enter your last name:",
-    type: "text"
-  },{
-    type: "radiogroup",
-    name: "car",
-    title: "What car are you driving?",
-    // isRequired: true,
-    // hasNone: true,
-    choices: [
-        "Ford",
-        "Vauxhall",
-        "Volkswagen",
-        "Nissan"
-    ]
-  },{
-    type: "dropdown",
-    name: "car",
-    title: "What car are you driving?",
-    // isRequired: true,
-    // hasNone: true,
-    choices: [
-        "Ford",
-        "Vauxhall",
-        "Volkswagen",
-        "Nissan"
-    ]
-  }]
-};
 
 @Component({
   selector: 'app-addsurvey',
@@ -53,6 +15,9 @@ export class AddsurveyComponent implements OnInit {
     description:[''],
     questions: this.fb.array([])
   });
+
+  
+  private optionValidators = [];
 
   constructor(private fb:FormBuilder, private surveyService: SurveyService, private router: Router) {}
 
@@ -70,7 +35,7 @@ export class AddsurveyComponent implements OnInit {
       type: ['', Validators.required],
       choices: this.fb.array([
         this.fb.group({
-          option: ['', Validators.required]
+          option: ['', this.optionValidators]
         })
       ]),
     });
@@ -95,6 +60,17 @@ export class AddsurveyComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+ 
+  }
+
+  onSelectChange(questionForm:any, i:number) {
+    if(questionForm.value.type == 'text') {
+      questionForm.get('option').setValidators(Validators.required);
+    } else {
+      questionForm.get('option').clearValidators();
+    }
+    questionForm.get('option').updateValueAndValidity();
   }
 
   onSubmit() {

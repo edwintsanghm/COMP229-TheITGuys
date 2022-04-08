@@ -22,6 +22,7 @@ import { UpdatesurveyComponent } from './updatesurvey/updatesurvey.component';
 import { RespondComponent } from './respond/respond.component';
 import { SurveysManageComponent } from './surveys-manage/surveys-manage.component';
 import { SurveyStatComponent } from './survey-stat/survey-stat.component';
+import { MatCardModule } from '@angular/material/card';
 
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthGuard } from './auth.guard';
@@ -57,6 +58,7 @@ export function tokenGetter() {
     MatTableModule,
     MatFormFieldModule,
     MatInputModule,
+    MatCardModule,
     ReactiveFormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,

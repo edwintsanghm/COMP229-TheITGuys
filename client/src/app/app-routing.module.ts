@@ -20,7 +20,7 @@ const routes: Routes = [{
 },{
   path:'surveys', component: SurveysComponent
 },{
-  path:'add', component: AddsurveyComponent,canActivate: [AuthGuard]
+  path:'add', component: UpdatesurveyComponent,canActivate: [AuthGuard]
 },{
   path: 'edit/:id', component: UpdatesurveyComponent ,canActivate: [AuthGuard]
 },{
