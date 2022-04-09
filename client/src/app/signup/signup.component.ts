@@ -32,8 +32,7 @@ export class SignupComponent implements OnInit {
             matchingControl.setErrors(null);
         }
     }
-}
-
+  }
 
   constructor(private loginService: LoginService,private fb:FormBuilder, private router: Router) { }
 
@@ -48,17 +47,18 @@ export class SignupComponent implements OnInit {
     }
 
     this.loginService.register(this.form.value.email, this.form.value.password).subscribe((data: any) => { 
+      console.log(data.error.errors.email)
       if(!data.user) {
-        this.status = "Login Fail";
+        if(data.error?.errors?.email) {
+          this.status = "Signup failed. Email is already taken";
+        } else {
+          this.status = "Signup failed.";
+        }
       } else {
         // redirect
         this.router.navigate(['/']);
       }
     });
   }
-
-}
-function matchValues(arg0: string): any {
-  throw new Error('Function not implemented.');
 }
 

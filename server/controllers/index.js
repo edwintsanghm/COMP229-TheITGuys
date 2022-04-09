@@ -86,6 +86,7 @@ module.exports.displayRegisterPage = (req, res, next) => {
 }
 
 module.exports.processRegisterPage = (req, res, next) => {
+    console.log(req.body)
     var user = new User();
 
     user.username = req.body.username;
@@ -94,7 +95,9 @@ module.exports.processRegisterPage = (req, res, next) => {
 
     user.save().then(function(){
         return res.json({user: user.toAuthJSON()});
-      }).catch(next);
+      }).catch((err) => {
+          return res.json({error:err });
+      });
 }
 
 module.exports.performLogout = (req, res, next) => {

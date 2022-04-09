@@ -38,6 +38,8 @@
         <div>
             <button mat-flat-button color="primary" type="submit" [disabled]="!form.valid">Sign Up</button>
         </div>
-
+        <div *ngIf="status != ''" class=" alert alert-danger">
+            <div>{{status}}</div>
+        </div>
     </form>
 </div>
