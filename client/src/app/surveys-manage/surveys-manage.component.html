@@ -24,7 +24,7 @@
                 <a mat-stroked-button [href]="'/edit/'+survey._id" class="actionButtons">Edit</a>
                 <a mat-stroked-button [href]="'/stat/'+survey._id" class="actionButtons">Statistic</a>
                 <mat-divider [vertical]="true" class="actionButtons deleteButton"></mat-divider>
-                <button mat-stroked-button color="warn" (click)="onClickDelete(survey._id)"
+                <button mat-stroked-button color="warn" (click)="onClickDelete(survey._id, survey.name)"
                     class="actionButtons">Delete</button>
             </td>
         </ng-container>

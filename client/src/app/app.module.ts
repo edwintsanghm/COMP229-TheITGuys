@@ -33,6 +33,7 @@ import { LoginComponent } from './login/login.component';
 import { AuthInterceptor } from './auth.interceptor';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatDividerModule} from '@angular/material/divider';
+import {MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material/snack-bar';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -61,7 +62,8 @@ export function tokenGetter() {
     MatFormFieldModule,
     MatInputModule,
     MatTooltipModule,
-    MatDividerModule, 
+    MatDividerModule,
+    MatSnackBarModule,
     MatCardModule,
     ReactiveFormsModule,
     AppRoutingModule,
@@ -77,6 +79,9 @@ export function tokenGetter() {
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
     multi: true
+  },{ 
+    provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, 
+    useValue: {duration: 3500}
   }],
   bootstrap: [AppComponent]
 })
