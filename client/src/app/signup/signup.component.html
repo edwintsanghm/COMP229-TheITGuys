@@ -1,23 +1,40 @@
-<!-- <div class="page-wrapper form-wrapper">
-    <form id="signup" (ngSubmit)="register()">
-        <h1>Sign Up</h1>
-        <p>Email</p>
-        <input type="email" [(ngModel)]="email" name="email"/>
-        <p>Password</p>
-        <input type="password" [(ngModel)]="password" name="password"/>
-        <p>Confirm Password</p>
-        <input type="password" [(ngModel)]="cpassword" name="cpassword"/>
-
-        <p class="status">{{status}}</p>
-        <button type="submit">Sign Up</button>
-    </form>
-</div> -->
-
 <div class="page-wrapper form-wrapper">
     <form id="signup" [formGroup]="form" (submit)="register()">
-        <input formControlName="email" placeholder="email">
-        <input type="password" formControlName="password" placeholder="password">
-        <input type="password" formControlName="cpassword" placeholder="confirm password">
+        <input type="input" formControlName="email" placeholder="email" email="true">
+        <div *ngIf="form.controls['email'].invalid && (form.controls['email'].dirty || form.controls['email'].touched)"
+            class="alert alert-danger">
+            <div *ngIf="form.controls['email'].errors?.['required']">
+                Email is required.
+            </div>
+            <div *ngIf="form.controls['email'].errors?.['email']">
+                Must be a valid email.
+            </div>
+        </div>
+
+        <input type="password" minlength="4" formControlName="password" placeholder="password">
+        <div *ngIf="form.controls['password'].invalid && (form.controls['password'].dirty || form.controls['password'].touched)"
+            class="alert alert-danger">
+            <div *ngIf="form.controls['password'].errors?.['required']">
+                Password is required.
+            </div>
+            <div *ngIf="form.controls['password'].errors?.['minlength']">
+                Password must be at least 4 characters long.
+            </div>
+        </div>
+        <input type="password" minlength="4" formControlName="cpassword" placeholder="confirm password">
+
+
+        <div *ngIf="form.controls['cpassword'].invalid && (form.controls['cpassword'].dirty || form.controls['cpassword'].touched)"
+            class="alert alert-danger">
+            <div *ngIf="form.controls['cpassword'].errors?.['required']">
+                Input Password again.
+            </div>
+            <div *ngIf="form.controls['cpassword'].errors?.confirmedValidator">
+                Password and Confirm Password must be match.
+            </div>
+
+        </div>
+
         <div>
             <button mat-flat-button color="primary" type="submit" [disabled]="!form.valid">Sign Up</button>
         </div>

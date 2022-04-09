@@ -10,8 +10,6 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  // public email:string = "";
-  // public password:string = "";
   public status:string = "";
 
   form = this.fb.group({
@@ -27,10 +25,8 @@ export class LoginComponent implements OnInit {
   login():void {
     this.loginService.login(this.form.value.username, this.form.value.password).subscribe((data: any) => { 
       console.log("try Login");
-      this.status = 'Testing'
       if(!data.user) {
         this.status = "Login Fail";
-        console.log(this.status);
       } else {
         // redirect
         console.log('login success')

@@ -1,32 +1,18 @@
-<!-- <div class="page-wrapper form-wrapper">
-    <form id="login" (ngSubmit)="login()">
-        <h1>Login</h1>
-        <p>Email</p>
-        <input type="email" [(ngModel)]="email" name="email" />
-        <p>Password</p>
-        <input type="password" [(ngModel)]="password" name="password" />
-
-        <p class="status">{{status}}</p>
-        <button type="submit">Log In</button>
-    </form>
-</div> -->
 <div class="page-wrapper form-wrapper">
     <form id="login" [formGroup]="form" (submit)="login()">
-        <mat-form-field class="survey-input-full-width" appearance="fill">
-            <input matInput formControlName="username" placeholder="username">
-            
-        </mat-form-field>
-        <div *ngIf="form.controls['username'].invalid && (form.controls['username'].dirty || form.controls['username'].touched)" class="alert alert-danger">
+        <input type="input" formControlName="username" placeholder="username">
+        <div *ngIf="form.controls['username'].invalid && (form.controls['username'].dirty || form.controls['username'].touched)"
+            class="alert alert-danger">
             <div *ngIf="form.controls['username'].errors.required">
-              Username is required.
+                Username is required.
             </div>
         </div>
-        <mat-form-field class="survey-input-full-width" appearance="fill">
-            <input matInput type="password" formControlName="password" placeholder="password">
-        </mat-form-field>
-        <div *ngIf="form.controls['password'].invalid && (form.controls['password'].dirty || form.controls['password'].touched)" class="alert alert-danger">
+
+        <input type="password" formControlName="password" placeholder="password">
+        <div *ngIf="form.controls['password'].invalid && (form.controls['password'].dirty || form.controls['password'].touched)"
+            class="alert alert-danger">
             <div *ngIf="form.controls['password'].errors.required">
-              Password is required.
+                Password is required.
             </div>
         </div>
         <div>

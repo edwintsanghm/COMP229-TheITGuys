@@ -9,17 +9,30 @@ import { Router } from '@angular/router';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-
-  // public email:string = "";
-  // public password:string = "";
-  // public cpassword:string = "";
   public status:string = "";
   
   form = this.fb.group({
-    email:['', Validators.required],
-    password:['', Validators.required],
-    cpassword:['', Validators.required],
+    email:['', [Validators.required, Validators.email]],
+    password:['', [Validators.required, Validators.minLength(4)]],
+    cpassword:['', [Validators.required, Validators.minLength(4)]],
+  },{
+    validator: this.ConfirmedValidator('password', 'cpassword')  
   });
+
+  ConfirmedValidator(controlName: string, matchingControlName: string){
+    return (formGroup: FormGroup) => {
+        const control = formGroup.controls[controlName];
+        const matchingControl = formGroup.controls[matchingControlName];
+        if (matchingControl.errors && !matchingControl.errors['confirmedValidator']) {
+            return;
+        }
+        if (control.value !== matchingControl.value) {
+            matchingControl.setErrors({ confirmedValidator: true });
+        } else {
+            matchingControl.setErrors(null);
+        }
+    }
+}
 
 
   constructor(private loginService: LoginService,private fb:FormBuilder, private router: Router) { }
@@ -45,3 +58,7 @@ export class SignupComponent implements OnInit {
   }
 
 }
+function matchValues(arg0: string): any {
+  throw new Error('Function not implemented.');
+}
+
