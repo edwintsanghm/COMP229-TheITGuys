@@ -73,8 +73,12 @@ export class UpdatesurveyComponent implements OnInit {
   }
 
   initQuestionTypeChangeListener(questionForm:FormGroup) {
+    console.log("initQuestionTypeChangeListener")
     questionForm.get('type')?.valueChanges.subscribe((value:any) => {
-      questionForm.removeControl('choices');
+      
+      if(questionForm.contains('choices'))
+        questionForm.removeControl('choices');
+
       let choices = new FormArray([]);
       questionForm.addControl('choices',choices);
       if(value != 'text') {
@@ -99,6 +103,15 @@ export class UpdatesurveyComponent implements OnInit {
       title: ['', Validators.required],
       type: ['', Validators.required],
     });
+
+    let choices = new FormArray([]);
+    if(this.form.value.type = 'text') {
+      choices.push(this.fb.group({option: ['']}))
+      questionForm.addControl('choices', choices)
+    } else {
+      choices.push(this.fb.group({option: ['', Validators.required]}))
+      questionForm.addControl('choices', choices)
+    }
     
     this.questions.push(questionForm);
   }
