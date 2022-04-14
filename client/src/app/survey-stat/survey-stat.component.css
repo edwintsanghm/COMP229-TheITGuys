@@ -6,4 +6,12 @@
     display: flex;
     justify-content: center;
   }
-  
+  .box {
+    display: flex;
+  }
+
+  .item {
+    justify-content: center;
+  }
+
+
