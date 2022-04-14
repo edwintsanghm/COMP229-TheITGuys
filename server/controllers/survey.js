@@ -182,13 +182,17 @@ module.exports.displaySpecificSurvey = (req, res, next) => {
 module.exports.displaySummary = async (req, res, next) => {
     try {
         let id = req.params.id;
-        let responses = await UserResponse
-            .findById(id)
+        let newSurvey = await Survey.findById(id);
+        let findedUserResponse = await UserResponse.findOne({ name: newSurvey.name }).populate('survey').exec();
+        /*
+        let responses = await UserResponse.aggregate(
+
+        )
             .populate('survey')
             .exec();
-
+*/
         res.json({
-            responses
+            findedUserResponse
         })
     } catch (e) {
         console.error(e);

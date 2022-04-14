@@ -1,1 +1,29 @@
-<p>survey-stat works!</p>
+<div class="wrapper center">
+<div>Survey Title</div>
+<div>{{dataSource.name}}</div>
+
+
+<mat-table [dataSource]="dataSource.summary">
+    <!-- User name Definition -->
+    <ng-container matColumnDef="question">
+      <mat-header-cell *matHeaderCellDef> Question</mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.title}} </mat-cell>
+
+      
+    
+    </ng-container>
+
+    <ng-container matColumnDef="result">
+        <th mat-header-cell *matHeaderCellDef> Result </th>
+        <td mat-cell *matCellDef="let row"> {{row.stat}}
+           
+        </td>
+    </ng-container>
+  
+    <!-- Header and Row Declarations -->
+    <mat-header-row *matHeaderRowDef="['question','result']"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: ['question','result']"></mat-row>
+  </mat-table>
+
+
+</div>
