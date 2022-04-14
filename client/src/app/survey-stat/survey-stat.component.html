@@ -1,1 +1,23 @@
-<p>survey-stat works!</p>
+<div class="wrapper">
+  <h3 class="center">Survey Title: {{dataSource.name}}</h3>
+  <mat-divider style="margin-top: 10px"></mat-divider>
+
+  <div class="center" style="margin-top: 40px">
+    <mat-list class="item">
+      <mat-list-item *ngFor="let data of dataSource.summary;let i = index;">
+        <mat-icon matListIcon (click)="showChart(data.stat)">bar_chart</mat-icon>
+        <h3 matLine (click)="showChart(data.stat)"> {{data.title}} </h3>
+      </mat-list-item>
+    </mat-list>
+    <div class="item" style="height:300px; width:50%;">
+      <div *ngIf="isShowChart">
+        <app-bar-chart [stat]="stat"></app-bar-chart>
+      </div>
+      <div *ngIf="!isShowChart">
+        <div class="center">
+          Chart Not Available.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

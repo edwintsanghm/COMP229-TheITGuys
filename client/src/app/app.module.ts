@@ -34,6 +34,9 @@ import { AuthInterceptor } from './auth.interceptor';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material/snack-bar';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { BarChartComponent } from './bar-chart/bar-chart.component';
+import {MatListModule} from '@angular/material/list';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -51,7 +54,8 @@ export function tokenGetter() {
     SurveysManageComponent,
     SurveyStatComponent,
     SignupComponent,
-    LoginComponent
+    LoginComponent,
+    BarChartComponent
   ],
   imports: [
     BrowserModule,
@@ -61,6 +65,8 @@ export function tokenGetter() {
     MatTableModule,
     MatFormFieldModule,
     MatInputModule,
+    MatExpansionModule,
+    MatListModule,
     MatTooltipModule,
     MatDividerModule,
     MatSnackBarModule,
