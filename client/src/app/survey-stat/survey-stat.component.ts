@@ -3,11 +3,6 @@ import { SurveyService } from '../survey.service';
 import { ActivatedRoute,Router,ParamMap } from '@angular/router';
 import { switchMap } from 'rxjs';
 import * as XLSX from 'xlsx';
-<<<<<<< HEAD
-
-=======
-  
->>>>>>> final-release
 @Component({
   selector: 'app-survey-stat',
   templateUrl: './survey-stat.component.html',
@@ -91,9 +86,4 @@ console.log(data.findedUserResponse)
     XLSX.writeFile(wb, 'summary.xlsx');
  
   }
-<<<<<<< HEAD
-
-=======
-  
->>>>>>> final-release
 }
