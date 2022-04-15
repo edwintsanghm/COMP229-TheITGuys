@@ -21,9 +21,10 @@ export class SurveyStatComponent implements OnInit {
         this.surveyService.getSurveySummary(params.get('id')!))
     ).subscribe((data: any) => { 
       this.dataSource = data.findedUserResponse; 
-
+console.log(data.findedUserResponse)
       this.stat = this.dataSource.summary[0].stat;
-      this.isShowChart = this.stat?true:false;
+      console.log(this.stat.hasOwnProperty("textRespond"))
+      this.isShowChart = !this.stat.hasOwnProperty("textRespond");
 
     });
 
@@ -33,7 +34,7 @@ export class SurveyStatComponent implements OnInit {
 
   showChart(stat: any): void  {
     console.log(stat)
-    this.isShowChart = stat?true:false;
+    this.isShowChart = !stat.hasOwnProperty("textRespond");
     this.stat = stat;
   }
 
