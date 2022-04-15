@@ -100,13 +100,19 @@ module.exports.processAddSurveyToUserReponse = async (req, res, next) => {
     if (findedUserResponse != null) {
         for (let i = 0; i < findedUserResponse.summary.length; i++) {
             if (questions[i].title == findedUserResponse.summary[i].title) {
-                findedUserResponse.summary[i].stat[questions[i].selectedOption] = findedUserResponse.summary[i].stat[questions[i].selectedOption] + 1;
+                if(questions[i].type != "text")
+                    findedUserResponse.summary[i].stat[questions[i].selectedOption] = findedUserResponse.summary[i].stat[questions[i].selectedOption] + 1;
             }
         }
 
+
+        
         findedUserResponse.survey = [...findedUserResponse.survey, surveyId];
         findedUserResponse.markModified('summary');
-        findedUserResponse.save();
+        console.log("before save", findedUserResponse)
+        findedUserResponse.save({
+            validateModifiedOnly: true,
+        });
         return res.json({
             userReponse:findedUserResponse
         })
