@@ -3,7 +3,11 @@ import { SurveyService } from '../survey.service';
 import { ActivatedRoute,Router,ParamMap } from '@angular/router';
 import { switchMap } from 'rxjs';
 import * as XLSX from 'xlsx';
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> final-release
 @Component({
   selector: 'app-survey-stat',
   templateUrl: './survey-stat.component.html',
@@ -23,9 +27,10 @@ export class SurveyStatComponent implements OnInit {
         this.surveyService.getSurveySummary(params.get('id')!))
     ).subscribe((data: any) => { 
       this.dataSource = data.findedUserResponse; 
-
+console.log(data.findedUserResponse)
       this.stat = this.dataSource.summary[0].stat;
-      this.isShowChart = this.stat?true:false;
+      console.log(this.stat.hasOwnProperty("textRespond"))
+      this.isShowChart = !this.stat.hasOwnProperty("textRespond");
 
     });
 
@@ -35,7 +40,7 @@ export class SurveyStatComponent implements OnInit {
 
   showChart(stat: any): void  {
     console.log(stat)
-    this.isShowChart = stat?true:false;
+    this.isShowChart = !stat.hasOwnProperty("textRespond");
     this.stat = stat;
   }
 
@@ -86,5 +91,9 @@ export class SurveyStatComponent implements OnInit {
     XLSX.writeFile(wb, 'summary.xlsx');
  
   }
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> final-release
 }

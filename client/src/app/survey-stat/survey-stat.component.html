@@ -1,8 +1,12 @@
 <div class="wrapper">
   <h3 class="center">Survey Title: {{dataSource.name}}</h3>
   <mat-divider style="margin-top: 10px"></mat-divider>
+<<<<<<< HEAD
   <button  mat-raised-button (click)="exportexcel()">Export to Excel</button>
  
+=======
+  <button mat-raised-button (click)="exportexcel()">Export to Excel</button>
+>>>>>>> final-release
 
   <div class="center" style="margin-top: 40px">
     <mat-list class="item">
@@ -17,7 +21,7 @@
       </div>
       <div *ngIf="!isShowChart">
         <div class="center">
-          Chart Not Available.
+          <h4>Text respond: {{ stat.textRespond }} </h4>
         </div>
       </div>
     </div>

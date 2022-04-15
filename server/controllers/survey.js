@@ -60,14 +60,19 @@ module.exports.processAddUserReponse = async (req, res, next) => {
         let options = question.choices;
         let title = question.title;
         const obj = {};
-        options.forEach(o => {
-            obj[o] = 0;
-            if (o == selected) {
-                obj[o] = 1;
-            } else {
+        if(question.type != "text") {
+            options.forEach(o => {
                 obj[o] = 0;
-            }
-        });
+                if (o == selected) {
+                    obj[o] = 1;
+                } else {
+                    obj[o] = 0;
+                }
+            });
+        } else {
+            obj['textRespond'] = selected;
+        }
+        
         return {
             title: title,
             stat: obj
@@ -100,13 +105,26 @@ module.exports.processAddSurveyToUserReponse = async (req, res, next) => {
     if (findedUserResponse != null) {
         for (let i = 0; i < findedUserResponse.summary.length; i++) {
             if (questions[i].title == findedUserResponse.summary[i].title) {
-                findedUserResponse.summary[i].stat[questions[i].selectedOption] = findedUserResponse.summary[i].stat[questions[i].selectedOption] + 1;
+                if(questions[i].type != "text"){
+                    findedUserResponse.summary[i].stat[questions[i].selectedOption] = findedUserResponse.summary[i].stat[questions[i].selectedOption] + 1;
+                } else {
+                    if(findedUserResponse.summary[i].hasOwnProperty("stat") && findedUserResponse.summary[i].stat.hasOwnProperty("textRespond")){
+                        findedUserResponse.summary[i].stat["textRespond"] = findedUserResponse.summary[i].stat["textRespond"].concat("; " + questions[i].selectedOption);
+                    } else {
+                        findedUserResponse.summary[i].stat = {textRespond: questions[i].selectedOption};
+                    }
+                }
+                    
+
             }
         }
 
         findedUserResponse.survey = [...findedUserResponse.survey, surveyId];
         findedUserResponse.markModified('summary');
-        findedUserResponse.save();
+        console.log("before save", findedUserResponse)
+        findedUserResponse.save({
+            validateModifiedOnly: true,
+        });
         return res.json({
             userReponse:findedUserResponse
         })
